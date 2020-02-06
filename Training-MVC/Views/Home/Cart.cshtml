@@ -1,0 +1,25 @@
+@{
+    ViewData["Title"]="Pick up your favorite goods";
+}
+
+<div class="text-center">
+    @{
+        var get = ViewBag.items;
+        foreach (var item in get)
+        {
+            <div>
+                <h6>@item.title</h6>
+                <h6>Price : Rp.@item.price</h6>
+                @* <div>
+                    <img src=@item.image width="400px">
+                </div> *@
+                <input value="" name="cart" id="k_id_email" placeholder="  Add to chart">
+                <button type="submit">Update</button>
+                <button type="submit">Remove</button>
+                <br>
+                <br>
+                <br>
+            </div>
+        }
+    }
+</div>

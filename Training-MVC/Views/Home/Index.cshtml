@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h2 class="display-4"><strong>Welcome To Bellroy</strong></h2>
+    <p><i>Carry your goods in simply way</i></p>
+    <ul>
+        @{
+            var items = ViewBag.items;
+            foreach(var item in items)
+            {<div class="grid-item">
+                <div>
+                    <a href="/Home/Detail/@item.id">@item.title</a>
+                    <div>
+                        <img src=@item.image width="300px">
+                    </div>
+                    <h6>Price : Rp. @item.price</h6>
+                </div>
+                <br>
+                <br>
+            </div>
+            }
+        }
+        <div class="grid-container">
+</div>
+    </ul>
+</div>
