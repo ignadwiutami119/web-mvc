@@ -34,40 +34,64 @@ namespace Task_Web_Product.Controllers {
         }
 
         public IActionResult Cart (int id) {
-            //var produk = from a in _AppDbContext.items select a;
-            if (!_AppDbContext.carts.Any ()) {
-                Carts cart = new Carts ()
-                    {
-                        total = 0,
-                        price = 0
-                    };         
-                _AppDbContext.carts.Add (cart);
-                _AppDbContext.SaveChanges ();
-            }
+            var display = from x in _AppDbContext.carts from y in x.produk where y.CartsID == 1 select y;
+            ViewBag.items = display;
+            return View ("Cart");
+        }
+        public IActionResult Update (int id, int val) {
+            var item = _AppDbContext.items.Find (id);
+            item.total = val;
+            _AppDbContext.Add (item);
+            _AppDbContext.Attach (item);
+            _AppDbContext.SaveChanges ();
+            var display = from x in _AppDbContext.carts from y in x.produk where y.CartsID == 1 select y;
+            ViewBag.items = display;
+            return RedirectToAction ("Cart","Home");
+        }
+        public IActionResult Remove (int id) {
+            var item = _AppDbContext.items.Find (id);
+            item.total = 0;
+            _AppDbContext.Add (item);
+            _AppDbContext.Attach (item);
+            _AppDbContext.SaveChanges ();
+            var display = from x in _AppDbContext.carts from y in x.produk where y.CartsID == 1 select y;
+            ViewBag.items = display;
+            return RedirectToAction ("Cart","Home");
+        }
+        public IActionResult Checkout (int total) {
+            var item = _AppDbContext.carts.Find (1);
+            item.TotalPrice = total;
+            _AppDbContext.Add (item);
+            _AppDbContext.Attach (item);
+            _AppDbContext.SaveChanges ();
+            var display = from x in _AppDbContext.carts from y in x.produk where y.CartsID == 1 select y;
+            ViewBag.items = display;
+            return RedirectToAction ("Cart","Home");
+        }
+
+        public IActionResult Add(int id)
+        {
             var ca = _AppDbContext.carts.Find(1);
-            
             var item = _AppDbContext.items.Find(id);
+            if (!_AppDbContext.carts.Any())
+            {
+                Carts cart = new Carts();
+                _AppDbContext.carts.Add(cart);
+                _AppDbContext.SaveChanges();
+            }
+            
+            item.total+=1;
             item.CartsID = ca.id;
             _AppDbContext.Add(item);
             _AppDbContext.Attach(item);
             _AppDbContext.SaveChanges();
-                   
-            ;
-            var display = from x in _AppDbContext.carts from y in _AppDbContext.items where y.CartsID == x.id select y;
+ 
+            var display = from x in _AppDbContext.carts from y in x.produk where y.CartsID==1 && y.total>0 select y;
             ViewBag.items = display;
-            return View ("Cart");
+            return RedirectToAction("Cart","Home");
         }
-        // Carts cart = null;
 
-        //     cart = new Carts();
-
-        // public IActionResult Add(int id)
-        // {
-        //     var item = _AppDbContext.items.Find(id);
-        //     var obj = new 
-        // }
-
-        public IActionResult Privacy () {
+         public IActionResult Privacy () {
             return View ();
         }
 

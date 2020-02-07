@@ -10,6 +10,7 @@ namespace Task_Web_Product.Models
         public int price {get;set;}
         public string desc {get;set;}
         public string image {get;set;}
+        public int total {get;set;}
 
         [ForeignKey("CartsID")]
         public int CartsID {get; set;}

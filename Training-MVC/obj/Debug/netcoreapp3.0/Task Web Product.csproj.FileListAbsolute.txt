@@ -143,3 +143,4 @@ D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Task Web Product
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Task Web Product.pdb
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\Product.cshtml.g.cs
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\Detail.cshtml.g.cs
+D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\Update.cshtml.g.cs

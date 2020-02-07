@@ -2,24 +2,58 @@
     ViewData["Title"]="Pick up your favorite goods";
 }
 
-<div class="text-center">
+
     @{
         var get = ViewBag.items;
+        int sum = 0;
+        int total = 0;
         foreach (var item in get)
         {
-            <div>
+                sum= @item.total*@item.price;
+                total+=sum;
+                <div class="text-left">
                 <h6>@item.title</h6>
+                <img src=@item.image width="500px"> </div>
+                <div class="text-right">
                 <h6>Price : Rp.@item.price</h6>
-                @* <div>
-                    <img src=@item.image width="400px">
-                </div> *@
-                <input value="" name="cart" id="k_id_email" placeholder="  Add to chart">
-                <button type="submit">Update</button>
-                <button type="submit">Remove</button>
+                <h6>Total : @item.total</h6>
+                <h6>Total Price : @sum</h6>
                 <br>
-                <br>
-                <br>
-            </div>
+                </div>
+                <div class="text-right">
+                <form action="" method="post">
+                <input  id="inp-@item.id" type="text" value="" name="cart" id="cartupdate" placeholder="  Add to cart">
+                <button id="upd-@item.id" type="button" class="btn btn-primary" value="update" onclick="javascript:submitUpdate(this)">Update</button>
+                <button id="rem-@item.id" type="button" class="btn btn-secondary" value="remove" onclick="javascript:remove(this)">Remove</button><br><br>
+            </form> </div>   
         }
+        <div class="text-center">
+            <br> <br>
+            <h5>Total price in cart</h5>
+            <h5 id="total">@total</h5>
+            <button id="checkout" type="button" class="btn btn-primary" value="checkout" onclick="javascript:checkout(this)">Checkout</button>
+            </div>
     }
-</div>
+
+<script type="text/javascript">
+function submitUpdate(buttonSubmit)
+{
+    var id = buttonSubmit.id;
+    id = id.substring(4,id.length);
+    var inputId = "inp-"+id;
+    var value = document.getElementById(inputId).value;
+    location.href='/Home/Update?id='+id+'&val='+value;
+}
+
+function remove(btn) {
+    var id = btn.id;
+    id = id.substring(4,id.Length);
+    location.href='/Home/Remove?id='+id;
+}
+
+function checkout(btn) {
+    var get = "total";
+    var total = document.getElementById(get).innerHTML;
+    location.href='/Home/Checkout?total='+total;
+}
+</script>

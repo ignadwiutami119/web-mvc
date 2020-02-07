@@ -13,10 +13,13 @@
                 <h6>@item.title</h6>
                 <div>
                     <img src=@item.image width="500px">
+                    <br>
                 </div>
                 @item.desc
+                <br>
                 <h6>Price : Rp.@item.price</h6>
-                <a href="/Home/Cart/@item.id">Add to chart</a>
+                <br>
+                <button id="upd-@item.id" type="button" class="btn btn-primary" value="update" onclick="location.href='/Home/Add/@item.id'">Add To Chart</button>
                 <br>
             </div>
         }
