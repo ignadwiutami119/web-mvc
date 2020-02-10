@@ -14344,8 +14344,33 @@
   "RootNamespace": "Task_Web_Product",
   "Documents": [
     {
+      "FilePath": "d:\\TRAININGC#\\FEBRUARI\\MVC\\Training-MVC\\Views\\Home\\Editproduct.cshtml",
+      "TargetPath": "Views\\Home\\Editproduct.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\TRAININGC#\\FEBRUARI\\MVC\\Training-MVC\\Views\\Home\\Login.cshtml",
+      "TargetPath": "Views\\Home\\Login.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\TRAININGC#\\FEBRUARI\\MVC\\Training-MVC\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
       "TargetPath": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\TRAININGC#\\FEBRUARI\\MVC\\Training-MVC\\Views\\Home\\Checkout.cshtml",
+      "TargetPath": "Views\\Home\\Checkout.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\TRAININGC#\\FEBRUARI\\MVC\\Training-MVC\\Views\\Home\\Addproduct.cshtml",
+      "TargetPath": "Views\\Home\\Addproduct.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\TRAININGC#\\FEBRUARI\\MVC\\Training-MVC\\Views\\Home\\Admin.cshtml",
+      "TargetPath": "Views\\Home\\Admin.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -14381,6 +14406,11 @@
     {
       "FilePath": "d:\\TRAININGC#\\FEBRUARI\\MVC\\Training-MVC\\Views\\Home\\Privacy.cshtml",
       "TargetPath": "Views\\Home\\Privacy.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\TRAININGC#\\FEBRUARI\\MVC\\Training-MVC\\Views\\Home\\Editform.cshtml",
+      "TargetPath": "Views\\Home\\Editform.cshtml",
       "FileKind": "mvc"
     },
     {

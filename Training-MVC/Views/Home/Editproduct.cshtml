@@ -1,0 +1,49 @@
+@{
+    Layout = null;
+}
+
+<h2>@ViewData["Title"]</h2>
+<p><b>List of Product on Database</b></p>
+<div class="text-center">
+    @{
+        var get = ViewBag.items;
+        foreach (var item in get)
+        {
+            <div>
+                <h5>Product ID :</h5>
+                <h5>@item.id</h5>
+                <h5 id="item_id">@item.title</h5>
+                <div>
+                    <img src=@item.image width="200px">
+                </div>
+                <h4>@item.desc</h4>
+                <h4>@item.rate</h4>
+                <h4>Price : Rp.@item.price</h4>
+                <br>
+                <button id="edt-@item.id" type="button" class="btn btn-primary" value="update" onclick="javascript:edit(this)">Edit</button>
+                <button id="rem-@item.id" type="button" class="btn btn-secondary" value="remove" onclick="javascript:remove(this)">Remove</button><br><br>
+                <br>
+                <br>
+            </div>
+        }
+        <br>
+        <br>
+        <br>
+        <button id="button_go" type="button" class="btn btn-primary" value="update" onclick="location.href='/Home/Index'">Back To Home</button><br><br>
+    }
+</div>
+
+<script type="text/javascript">
+function edit(buttonSubmit)
+{
+    var id = document.getElementById("item_id").innerHTML;
+    location.href='/Home/Editform?id='+id;
+}
+
+function remove(btn) {
+    var id = btn.id;
+    id = id.substring(4,id.Length);
+    location.href='/Home/RemoveProduct?id='+id;
+}
+
+</script>

@@ -1,0 +1,30 @@
+@{
+    Layout = null;
+}
+   @{
+                <form action="" method="post">
+                <input  id="title" type="text" value="" name="title" placeholder="  Title">
+                <input  id="image" type="text" value="" name="cart"  placeholder="  Image (url)">
+                <input  id="desc" type="text" value="" name="cart"  placeholder="  description">
+                <input  id="price" type="text" value="" name="cart"  placeholder="  Price">
+                <input  id="rate" type="text" value="" name="cart"  placeholder="  Rate">
+                <button id="button" type="button" class="btn btn-primary" value="update" onclick="javascript:AddProduct(this)">Add Product</button><br><br>
+            </form>
+            <br>
+            <br>
+            <br>
+            <button id="button_go" type="button" class="btn btn-primary" value="update" onclick="location.href='/Home/Index'">Back To Home</button><br><br>
+    }
+
+
+<script type="text/javascript">
+function AddProduct(buttonSubmit)
+{
+    var title = document.getElementById("title").value;
+    var image = document.getElementById("image").value;
+    var desc = document.getElementById("desc").value;
+    var price = document.getElementById("price").value;
+    var rate = document.getElementById("rate").value;
+    location.href='/Home/Addproduct?title='+title+'&image='+image+'&desc='+desc+'&price='+price+'&rate='+rate;
+}
+</script>

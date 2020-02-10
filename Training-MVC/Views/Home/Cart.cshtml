@@ -11,21 +11,23 @@
         {
                 sum= @item.total*@item.price;
                 total+=sum;
-                <div class="text-left">
+
+                <section>
+                <div class="text-center">
                 <h6>@item.title</h6>
-                <img src=@item.image width="500px"> </div>
+                <img src=@item.image width="500px"> </div> </section>
+
+                <aside>
                 <div class="text-right">
                 <h6>Price : Rp.@item.price</h6>
                 <h6>Total : @item.total</h6>
                 <h6>Total Price : @sum</h6>
                 <br>
-                </div>
-                <div class="text-right">
                 <form action="" method="post">
                 <input  id="inp-@item.id" type="text" value="" name="cart" id="cartupdate" placeholder="  Add to cart">
                 <button id="upd-@item.id" type="button" class="btn btn-primary" value="update" onclick="javascript:submitUpdate(this)">Update</button>
                 <button id="rem-@item.id" type="button" class="btn btn-secondary" value="remove" onclick="javascript:remove(this)">Remove</button><br><br>
-            </form> </div>   
+            </form> </div> </aside> 
         }
         <div class="text-center">
             <br> <br>
@@ -48,7 +50,7 @@ function submitUpdate(buttonSubmit)
 function remove(btn) {
     var id = btn.id;
     id = id.substring(4,id.Length);
-    location.href='/Home/Remove?id='+id;
+    location.href='/Home/RemoveCart?id='+id;
 }
 
 function checkout(btn) {
