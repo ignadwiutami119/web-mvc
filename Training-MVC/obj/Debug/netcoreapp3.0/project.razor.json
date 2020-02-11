@@ -14359,6 +14359,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "d:\\TRAININGC#\\FEBRUARI\\MVC\\Training-MVC\\Views\\Home\\Search.cshtml",
+      "TargetPath": "Views\\Home\\Search.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\TRAININGC#\\FEBRUARI\\MVC\\Training-MVC\\Views\\Home\\Checkout.cshtml",
       "TargetPath": "Views\\Home\\Checkout.cshtml",
       "FileKind": "mvc"

@@ -23,6 +23,24 @@ namespace Task_Web_Product.Controllers {
             ViewBag.items = items;
             return View ();
         }
+
+        public IActionResult Product () {
+            var items = from a in _AppDbContext.items select a;
+            ViewBag.items = items;
+            return View ("Product");
+        }
+
+        public IActionResult Search(string val) {
+            var show = from a in _AppDbContext.items where a.title.Contains(val) select a;
+            ViewBag.items = show;
+            return View ();
+        }
+
+        public IActionResult Detail (int Id) {
+            var items = from i in _AppDbContext.items where i.id == Id select i;
+            ViewBag.items = items;
+            return View ("Detail");
+        }
         public IActionResult Addproduct (string title, string image, string desc, int price, int rate) {
             Items obj = new Items {
                 title = title,
@@ -39,13 +57,28 @@ namespace Task_Web_Product.Controllers {
             return View ();
         }
 
+        public IActionResult Editproduct () {
+            var items = from item in _AppDbContext.items select item;
+            ViewBag.items = items;
+            return View ("Editproduct");
+        }
+
+        public IActionResult RemoveProduct (int id) {
+            var obj = _AppDbContext.items.Find (id);
+            _AppDbContext.items.Remove (obj);
+            _AppDbContext.SaveChanges ();
+            var items = from item in _AppDbContext.items select item;
+            ViewBag.items = items;
+            return View ("Editproduct");
+        }
+
         public IActionResult Editform (int id) {
             var selected_item = from item in _AppDbContext.items where item.id == id select item;
             ViewBag.items = selected_item;
-            return View("Editform");
+            return View ("Editform");
         }
         public IActionResult EditData (int id, string title, string image, string desc, int price, int rate) {
-            var objek = _AppDbContext.items.Find(id);
+            var objek = _AppDbContext.items.Find (id);
             objek.title = title;
             objek.image = image;
             objek.desc = desc;
@@ -58,19 +91,6 @@ namespace Task_Web_Product.Controllers {
             _AppDbContext.SaveChanges ();
             var selected_item = from item in _AppDbContext.items select item;
             ViewBag.items = selected_item;
-            return View ("Editproduct");
-        }
-        public IActionResult RemoveProduct (int id) {
-            var obj = _AppDbContext.items.Find (id);
-            _AppDbContext.items.Remove (obj);
-            _AppDbContext.SaveChanges ();
-            var items = from item in _AppDbContext.items select item;
-            ViewBag.items = items;
-            return View ("Editproduct");
-        }
-        public IActionResult Editproduct () {
-            var items = from item in _AppDbContext.items select item;
-            ViewBag.items = items;
             return View ("Editproduct");
         }
 
@@ -93,18 +113,6 @@ namespace Task_Web_Product.Controllers {
             var get = from item in _AppDbContext.items where item.rate > 8 select item;
             ViewBag.items = get;
             return View ();
-        }
-
-        public IActionResult Detail (int Id) {
-            var items = from i in _AppDbContext.items where i.id == Id select i;
-            ViewBag.items = items;
-            return View ("Detail");
-        }
-
-        public IActionResult Product () {
-            var items = from i in _AppDbContext.items select i;
-            ViewBag.items = items;
-            return View ("Product");
         }
 
         public IActionResult Cart (int id) {
