@@ -24,7 +24,7 @@ namespace Task_Web_Product.Controllers {
             return View ();
         }
         public IActionResult Addproduct (string title, string image, string desc, int price, int rate) {
-            Items obj = new Items{
+            Items obj = new Items {
                 title = title,
                 image = image,
                 desc = desc,
@@ -34,11 +34,17 @@ namespace Task_Web_Product.Controllers {
                 CartsID = 1
 
             };
-             _AppDbContext.Add (obj);
+            _AppDbContext.Add (obj);
             _AppDbContext.SaveChanges ();
             return View ();
         }
-        public IActionResult EditProduct (int id, string title, string image, string desc, int price, int rate) {
+
+        public IActionResult Editform (int id) {
+            var selected_item = from item in _AppDbContext.items where item.id == id select item;
+            ViewBag.items = selected_item;
+            return View("Editform");
+        }
+        public IActionResult EditData (int id, string title, string image, string desc, int price, int rate) {
             var objek = _AppDbContext.items.Find(id);
             objek.title = title;
             objek.image = image;
@@ -47,21 +53,25 @@ namespace Task_Web_Product.Controllers {
             objek.rate = rate;
             objek.total = 0;
             objek.CartsID = 1;
-            _AppDbContext.SaveChanges();
-            return View ();
+            _AppDbContext.Add (objek);
+            _AppDbContext.Attach (objek);
+            _AppDbContext.SaveChanges ();
+            var selected_item = from item in _AppDbContext.items select item;
+            ViewBag.items = selected_item;
+            return View ("Editproduct");
         }
         public IActionResult RemoveProduct (int id) {
-             var objek = _AppDbContext.items.Find(id);
-            _AppDbContext.items.Remove(objek);
-            _AppDbContext.SaveChanges();
+            var obj = _AppDbContext.items.Find (id);
+            _AppDbContext.items.Remove (obj);
+            _AppDbContext.SaveChanges ();
             var items = from item in _AppDbContext.items select item;
             ViewBag.items = items;
             return View ("Editproduct");
         }
-        public IActionResult Editform (int id) {
-            var items = from item in _AppDbContext.items where item.id ==id select item;
+        public IActionResult Editproduct () {
+            var items = from item in _AppDbContext.items select item;
             ViewBag.items = items;
-            return View ("Editform");
+            return View ("Editproduct");
         }
 
         public IActionResult Login (string username, string password) {
@@ -72,7 +82,7 @@ namespace Task_Web_Product.Controllers {
                         HttpContext.Session.SetString ("username", username);
                         var _get = from item in _AppDbContext.items where item.rate > 8 select item;
                         ViewBag.items = _get;
-                        return View("Admin");
+                        return View ("Admin");
                     } else {
                         ViewBag.error = "Invalid Password";
                     }
