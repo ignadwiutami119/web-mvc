@@ -7,12 +7,14 @@
 <h2>@ViewData["Title"]</h2>
 <p>Manage Product</p>
 <div class="text-center">
+    <ul>
+        <div class="grid-container">
+<div class="text-center">
     @{
-            <div class="text-center">     
+            <div class="text-center"> 
+            <img src="https://s3.amazonaws.com/cms.images.bellroy.com/cms_images/52/bellroy-womens-wallets.jpg?1492062325" width="500px"> <br> <br>
             <button id="Add Product" type="button" class="btn btn-primary" value="Admin" onclick="location.href='/Home/Addproduct'">Add Some Product</button> 
-            <br>
-            <br>  
-            <button id="Edit or Remove Product" type="button" class="btn btn-primary" value="User" onclick="location.href='/Home/Editproduct'">Edit or Remove Some Product</button>
+            <button id="Edit or Remove Product" type="button" class="btn btn-primary" onclick="location.href='/Home/Editproduct'">Edit or Remove Some Product</button>
             <br>
             </div>
     }

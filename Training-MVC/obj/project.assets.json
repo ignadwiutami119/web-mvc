@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.0": {
+      "JW.Pager/1.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/JW.Pager.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/JW.Pager.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.Authentication.JwtBearer/3.0.0": {
         "type": "package",
         "dependencies": {
@@ -1549,6 +1558,18 @@
     }
   },
   "libraries": {
+    "JW.Pager/1.0.1": {
+      "sha512": "TXsg2QVGd7qk2goxtKs5sn++/xYpJJn1hVgtZM0M5qQYD0ZU6Z/fXrd0sAFU3CJFeEIhq76NaAfSRU1yqcgpOg==",
+      "type": "package",
+      "path": "jw.pager/1.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "jw.pager.1.0.1.nupkg.sha512",
+        "jw.pager.nuspec",
+        "lib/netstandard2.0/JW.Pager.dll"
+      ]
+    },
     "Microsoft.AspNetCore.Authentication.JwtBearer/3.0.0": {
       "sha512": "FrlxgBG6+FKlYr1IVxXNXSK7jpxiIYf036VNR1UgopKSIUNjaK2zvkhfVgFZVavagitQ/+UZ8Snnm6axyAVRNg==",
       "type": "package",
@@ -5838,6 +5859,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.0": [
+      "JW.Pager",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 3.0.0",
       "Microsoft.EntityFrameworkCore >= 3.1.1",
       "Microsoft.EntityFrameworkCore.Design >= 3.1.1",
@@ -5885,6 +5907,10 @@
     "frameworks": {
       "netcoreapp3.0": {
         "dependencies": {
+          "JW.Pager": {
+            "target": "Package",
+            "version": "(, )"
+          },
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
             "version": "[3.0.0, )"

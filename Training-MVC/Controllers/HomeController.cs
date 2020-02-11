@@ -31,9 +31,32 @@ namespace Task_Web_Product.Controllers {
         }
 
         public IActionResult Search(string val) {
-            var show = from a in _AppDbContext.items where a.title.Contains(val) select a;
+            var show = from a in _AppDbContext.items where (a.title.Contains(val) || a.desc.Contains(val)) select a;
             ViewBag.items = show;
-            return View ();
+            return View ("Product");
+        }
+        public IActionResult Sort(string val) {
+            if(val == "default"){
+                var obj = from x in _AppDbContext.items select x;
+                ViewBag.items = obj;
+            }
+            else if(val == "name_asc") {
+                var obj = from x in _AppDbContext.items orderby x.title select x;
+                ViewBag.items = obj;
+            }
+            else if(val == "name_desc"){
+                var obj = from x in _AppDbContext.items orderby x.title descending select x;
+                ViewBag.items = obj;
+                }
+            else if(val == "price_asc"){
+                var obj = from x in _AppDbContext.items orderby x.price select x;
+                ViewBag.items = obj;
+            }
+            else if(val == "price_desc"){
+                var obj = from x in _AppDbContext.items orderby x.price descending select x;
+                ViewBag.items = obj;
+            }
+            return View ("Product");
         }
 
         public IActionResult Detail (int Id) {
@@ -64,9 +87,10 @@ namespace Task_Web_Product.Controllers {
         }
 
         public IActionResult RemoveProduct (int id) {
+            if(id != 0) {
             var obj = _AppDbContext.items.Find (id);
             _AppDbContext.items.Remove (obj);
-            _AppDbContext.SaveChanges ();
+            _AppDbContext.SaveChanges (); }
             var items = from item in _AppDbContext.items select item;
             ViewBag.items = items;
             return View ("Editproduct");

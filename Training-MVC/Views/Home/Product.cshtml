@@ -1,13 +1,25 @@
 @{
-    ViewData["Title"] = "Product Detail";
+    ViewData["Title"] = "Our Best Collections";
 }
 
 <h2>@ViewData["Title"]</h2>
 <p>Here is our product</p>
+<div class="text-right">
 <form action="" method="post">
-                <input  id="input" type="text" value="" name="cart" id="cartupdate" placeholder="  Add to cart">
-                <button id="search_btn" type="button" class="btn btn-primary" value="search" onclick="javascript:search(this)">Search</button><br><br>
-            </form> </div> </aside> 
+                <input  id="search_input" type="text" name="cart"  placeholder="  Search Product">
+                <button id="search_btn" type="button" class="btn btn-primary" value="search" onclick="javascript:search(this)">Search</button><br>
+            </form>
+<form action="" method="post">
+                <select id="sort_input" name="sort">
+                <option value="default">Default</option>
+                <option value="name_asc">Sort by name Asc</option>
+                <option value="name_desc">Sort by name Desc</option>
+                <option value="price_asc">Sort by price Asc</option>
+                <option value="price_desc">Sort by price Desc</option>
+                </select>
+                <button id="search_btn" type="button" class="btn btn-primary" value="search" onclick="javascript:sorting(this)">Sort</button><br><br>
+            </form>
+</div>
 <div class="text-center">
     @{
         var get = ViewBag.items;
@@ -29,9 +41,16 @@
 </div>
 
 <script type="text/javascript">
-function search(btn)
+function search()
 {
-    var value = document.getElementById(input).value;
+    var value = document.getElementById("search_input").value;
     location.href='/Home/Search?val='+value;
 }
+
+function sorting()
+{
+    var value = document.getElementById("sort_input").value;
+    location.href='/Home/Sort?val='+value;
+}
+
 </script>
