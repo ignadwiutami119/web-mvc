@@ -5859,7 +5859,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.0": [
-      "JW.Pager",
+      "JW.Pager >= 1.0.1",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 3.0.0",
       "Microsoft.EntityFrameworkCore >= 3.1.1",
       "Microsoft.EntityFrameworkCore.Design >= 3.1.1",
@@ -5909,7 +5909,7 @@
         "dependencies": {
           "JW.Pager": {
             "target": "Package",
-            "version": "(, )"
+            "version": "[1.0.1, )"
           },
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using JW;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -34,6 +35,30 @@ namespace Task_Web_Product.Controllers {
             var show = from a in _AppDbContext.items where (a.title.Contains(val) || a.desc.Contains(val)) select a;
             ViewBag.items = show;
             return View ("Product");
+        }
+        public IActionResult Paging(int val, int set=4) {
+            var take = set;
+            if (val == 1)
+            {
+                var show = from a in _AppDbContext.items.Take(take) select a;
+                ViewBag.items = show;
+            }
+            else if (val == 2)
+            {
+                var show = from a in _AppDbContext.items.Skip(take).Take(take) select a;
+                ViewBag.items = show;
+            }
+             else if (val == 3)
+            {
+                var show = from a in _AppDbContext.items.Skip(take*2).Take(take) select a;
+                ViewBag.items = show;
+            }
+             else if(val ==4)
+            {
+                var show = from a in _AppDbContext.items.Skip(take*3).Take(take) select a;
+                ViewBag.items = show;
+            }
+             return View ("Product");
         }
         public IActionResult Sort(string val) {
             if(val == "default"){
@@ -197,6 +222,21 @@ namespace Task_Web_Product.Controllers {
         public IActionResult Privacy () {
             return View ();
         }
+
+        // [HttpGet]
+		// public ActionResult Pagination(int? page)
+		// {
+		// 	var dummyItems = Enumerable.Range(1, 150).Select(x => "Item " + x);
+		// 	var pager = new Models.Pager(dummyItems.Count(), page);
+			
+		// 	var viewModel = new IndexViewModel
+		// 	{
+		// 		Items = dummyItems.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+		// 		Pager = pager
+		// 	};
+			
+		// 	return View(viewModel);
+		// }
 
         [ResponseCache (Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error () {

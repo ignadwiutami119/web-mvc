@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "Our Best Collections";
+    ViewData["Title"] = "Our Good Collections";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -40,6 +40,17 @@
     }
 </div>
 
+<form action="" method="post">
+                <select id="paging_input" name="sort">
+                <option value="1">Page 1</option>
+                <option value="2">Page 2</option>
+                <option value="3">Page 3</option>
+                <option value="4">Page 4</option>
+                </select>
+                <input  id="setPage_input" type="text" name="cart"  placeholder=" show how many items?">
+                <button id="page_btn" type="button" class="btn btn-primary" value="search" onclick="javascript:paging(this)"> Go </button><br><br>
+            </form>
+
 <script type="text/javascript">
 function search()
 {
@@ -51,6 +62,13 @@ function sorting()
 {
     var value = document.getElementById("sort_input").value;
     location.href='/Home/Sort?val='+value;
+}
+
+function paging()
+{
+    var value = document.getElementById("paging_input").value;
+    var set = document.getElementById("setPage_input").value;
+    location.href='/Home/Paging?val='+value+'&set='+set;
 }
 
 </script>
