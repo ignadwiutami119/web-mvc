@@ -13,7 +13,7 @@ namespace Task_Web_Product.Models {
         public int total { get; set; }
 
         [ForeignKey ("CartsID")]
-        public int CartsID { get; set; }
+        public int? CartsID { get; set; } = null;
         public Carts cart { get; set; }
 
         SqlConnection con = new SqlConnection ("Server=localhost\\SQLEXPRESS;Database=Store;Trusted_Connection=True;");

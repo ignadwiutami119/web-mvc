@@ -1,8 +1,6 @@
 @{
     ViewData["Title"]="Pick up your favorite goods";
 }
-
-
     @{
         var get = ViewBag.items;
         int sum = 0;
@@ -56,6 +54,6 @@ function remove(btn) {
 function checkout(btn) {
     var get = "total";
     var total = document.getElementById(get).innerHTML;
-    location.href='/Home/Checkout?total='+total;
+    location.href='/Home/Purchase?total='+total;
 }
 </script>

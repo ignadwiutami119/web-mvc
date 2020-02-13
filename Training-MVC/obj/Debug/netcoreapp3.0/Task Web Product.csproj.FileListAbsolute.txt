@@ -172,4 +172,12 @@ D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\Editproduct.cshtml.g.cs
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\Editform.cshtml.g.cs
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\JW.Pager.dll
-D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\viewModel.cshtml.g.cs
+D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\CSVLibraryAK.dll
+D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\System.Web.Mvc.dll
+D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\System.Web.Razor.dll
+D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\System.Web.Helpers.dll
+D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\System.Web.WebPages.Deployment.dll
+D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\System.Web.WebPages.Razor.dll
+D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\System.Web.WebPages.dll
+D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\Microsoft.Web.Infrastructure.dll
+D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\Purchaseform.cshtml.g.cs
