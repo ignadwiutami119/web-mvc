@@ -1,127 +1,219 @@
 @{
-    ViewData["Title"] = "Login Page";
+    Layout=null;
 }
 
-<!DOCTYPE html>
-<html>
-    <style>
-.form-style{
-	font: 95% Arial, Helvetica, sans-serif;
-	max-width: 400px;
-	margin: 10px auto;
-	padding: 16px;
-	background: #F7F7F7;
-}
-.form-style h1{
-	background: #3C5BD6;
-	padding: 20px 0;
-	font-size: 140%;
-	font-weight: 300;
-	text-align: center;
-	color: #fff;
-	margin: -16px -16px 16px -16px;
-}
-.form-style input[type="text"],
-.form-style input[type="date"],
-.form-style input[type="datetime"],
-.form-style input[type="email"],
-.form-style input[type="number"],
-.form-style input[type="search"],
-.form-style input[type="time"],
-.form-style input[type="url"],
-.form-style textarea,
-.form-style select 
-{
-	-webkit-transition: all 0.30s ease-in-out;
-	-moz-transition: all 0.30s ease-in-out;
-	-ms-transition: all 0.30s ease-in-out;
-	-o-transition: all 0.30s ease-in-out;
-	outline: none;
-	box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	width: 100%;
-	background: #fff;
-	margin-bottom: 4%;
-	border: 1px solid #ccc;
-	padding: 3%;
-	color: #555;
-	font: 95% Arial, Helvetica, sans-serif;
-}
-.form-style input[type="text"]:focus,
-.form-style input[type="date"]:focus,
-.form-style input[type="datetime"]:focus,
-.form-style input[type="email"]:focus,
-.form-style input[type="number"]:focus,
-.form-style input[type="search"]:focus,
-.form-style input[type="time"]:focus,
-.form-style input[type="url"]:focus,
-.form-style textarea:focus,
-.form-style select:focus
-{
-	box-shadow: 0 0 5px #3C5BD6;
-	padding: 3%;
-	border: 1px solid #3C5BD6;
-}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.6">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/checkout/">
 
-.form-style input[type="submit"],
-.form-style button[type="submit"],
-.form-style input[type="button"]{
-	box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	width: 100%;
-	padding: 3%;
-	background: #3C5BD6;
-	border-bottom: 2px solid #486DFC;
-	border-top-style: none;
-	border-right-style: none;
-	border-left-style: none;	
-	color: #fff;
-}
-.form-style input[type="submit"]:hover,
-.form-style button[type="submit"]:hover,
-.form-style input[type="button"]:hover{
-	background: #335AF6;
-}
-</style>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <br> <br>
-   @{
-        var get = ViewBag.items;
-        <div>
-            <form class="form-style" action="" method="post">
-                <div class="text-center">
+    <!-- Bootstrap core CSS -->
+<link href="/docs/4.4/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Favicons -->
+<link rel="apple-touch-icon" href="/docs/4.4/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/4.4/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/4.4/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/4.4/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/4.4/assets/img/favicons/safari-pinned-tab.svg" color="#563d7c">
+<link rel="icon" href="/docs/4.4/assets/img/favicons/favicon.ico">
+<meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#563d7c">
+<style>
+    /* Remove the navbar's default rounded borders and increase the bottom margin */ 
+    .navbar {
+      margin-bottom: 50px;
+      border-radius: 0;
+      background-color: #191716;
+    }
+    
+    /* Remove the jumbotron's default bottom margin */ 
+     .jumbotron {
+      margin-bottom: 0;
+    }
+   
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+  </style>
+<link href="form-validation.css" rel="stylesheet">
+  </head>
+  <body class="bg-light">
+    <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+    </div>
+     <div class="collapse navbar-collapse" id="myNavbar">
+      <a class="navbar-brand" href="#">Bellroy</a>
+      <ul class="nav navbar-nav">
+        <li><a href="/Home/Welcomepage/">Home</a></li>
+        <li><a href="/Home/Product/">Products</a></li>
+        <li class="active"><a href="/Home/Cart/">Cart</a></li>
+        <li><a href="/Home/Privacy">Privacy</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/Home/Index/"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="container">
+  <div class="text-center"><br><br>
+    <h1>Checkout Form</h1>
+    <p class="lead">Please Complete The Form Below</p><br><br>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 order-md-2 mb-4">
+      <h4 class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-muted">Your cart</span>
+        <span class="badge badge-secondary badge-pill">bellroy</span>
+      </h4>
+      <ul class="list-group mb-3">
+        @{
+           var itemOut = ViewBag.items;
+           foreach(var i in itemOut)
+           {
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                    <small class="text-muted">@i.title</small>
                 </div>
-                <br>
-                <p4>Total Purchase :</p4>
-                <p4 id="totalpurchase">@get</p4>
-                <br> <br>
-                <input  id="name" type="text" placeholder="  Full Name">
-                <input  id="address" type="text" placeholder=" Address">
-                <input  id="email" type="text" placeholder="  Email">
-                <input  id="phone" type="text" placeholder="  Phone Number">
-                <button id="button" type="submit" onclick="javascript:Purchase(this)">Purchase</button><br><br>
-            </form>
+                <div>
+                <span class="text-muted">Rp. @i.price </span><br>
+                <small class="text-muted">Quantity : @i.total </small>
+                </div>
+                </li>
+           }
+        }
+        <li class="list-group-item d-flex justify-content-between">
+        @{
+          var sum = ViewBag.total;
+          <span>Total (Rp)</span>
+          <strong id="sum">@sum</strong>
+        }
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-8 order-md-1">
+      <h4 class="mb-3">Billing address</h4>
+      <form class="needs-validation" novalidate>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="firstName">First name</label>
+            <input type="text" class="form-control" id="firstName" placeholder="" required>
+            <div class="invalid-feedback">
+              Valid first name is required.
             </div>
-            <br>
-            <br>
-            <br>
-    }    
-</body>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="lastName">Last name</label>
+            <input type="text" class="form-control" id="lastName" placeholder="" required>
+            <div class="invalid-feedback">
+              Valid last name is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="email">Email <span class="text-muted">(Optional)</span></label>
+          <input type="email" class="form-control" id="email" placeholder="you@example.com">
+          <div class="invalid-feedback">
+            Please enter a valid email address for shipping updates.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="phone">Phone Number<span class="text-muted"></span></label>
+          <input type="phone" class="form-control" id="phone" placeholder="08xxxxxxxxxx">
+          <div class="invalid-feedback">
+            Please enter your phone numbers.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="address">Address</label>
+          <input type="text" class="form-control" id="address" placeholder="Shipping Adress" required>
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-5 mb-3">
+            <label for="country">Country</label>
+            <select class="custom-select d-block w-100" id="country" required>
+              <option value="">Choose...</option>
+              <option>Indonesia</option>
+
+            </select>
+            <div class="invalid-feedback">
+              Please select a valid country.
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="state">Regency</label>
+            <select class="custom-select d-block w-100" id="state" required>
+              <option value="">Choose...</option>
+              <option>Kulon Progo</option>
+              <option>Gunung Kidul</option>
+              <option>Bantul</option>
+              <option>Sleman</option>
+              <option>Kota Yogyakarta</option>
+            </select>
+            <div class="invalid-feedback">
+              Please provide a valid state.
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="zip">Zip</label>
+            <input type="text" class="form-control" id="zip" placeholder="" required>
+            <div class="invalid-feedback">
+              Zip code required.
+            </div>
+          </div>
+        </div>
+        <hr class="mb-4">
+        <button class="btn btn-primary btn-lg btn-block" type="submit" onclick="javascript: checkout(this)">Continue to payment</button>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+      <script>window.jQuery || document.write('<script src="/docs/4.4/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/docs/4.4/dist/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
+        <script src="form-validation.js"></script>
+        <br> <br> <br>
+         <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - Bellroy - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    </body>
 </html>
 
 <script type="text/javascript">
-function EditProduct(btn)
+function checkout(btn)
 {
-    var Name = document.getElementById("name").value;
-    var Address = document.getElementById("address").value;
-    var Email = document.getElementById("email").value;
-    var Phone = document.getElementById("phone").value;
-    location.href='/Home/EditData?id='+id+'&title='+title+'&image='+image+'&desc='+desc+'&price='+price+'&rate='+rate;
+    var firstname =  document.getElementById("firstName").value;
+    var lastname =  document.getElementById("lastName").value;
+    var email =  document.getElementById("email").value;
+    var phone =  document.getElementById("phone").value;
+    var address =  document.getElementById("address").value;
+    var total = document.getElementById("sum").innerHTML();
+    var fullname = firstname+" "+lastname;
+    location.href='/Home/Purchase?fullname='+fullname+'&email='+email+'&phone='+phone+'&address='+address+'&total='+total;
 }
-</script>

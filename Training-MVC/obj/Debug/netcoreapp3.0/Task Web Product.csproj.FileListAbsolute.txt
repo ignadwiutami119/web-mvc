@@ -181,3 +181,4 @@ D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\System.Web.WebPa
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\System.Web.WebPages.dll
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\Microsoft.Web.Infrastructure.dll
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\Purchaseform.cshtml.g.cs
+D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\Welcomepage.cshtml.g.cs

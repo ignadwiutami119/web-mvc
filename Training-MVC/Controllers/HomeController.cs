@@ -32,6 +32,11 @@ namespace Task_Web_Product.Controllers {
             ViewBag.items = items;
             return View ();
         }
+        public IActionResult Welcomepage () {
+            var items = from item in _AppDbContext.items where item.rate > 3 select item;
+            ViewBag.items = items;
+            return View ();
+        }
 
         public IActionResult Export () {
             var comlumHeadrs = new string[] {
@@ -58,19 +63,19 @@ namespace Task_Web_Product.Controllers {
             return File (buffer, "text/csv", $"Item.csv");
         }
 
-        public IActionResult Import ([FromForm (Name = "file")] IFormFile file) {
+        public IActionResult Import ([FromForm (Name = "Upload")] IFormFile Upload) {
             string filePath = string.Empty;
-            if (file != null) {
+            if (Upload != null) {
                 try {
-                    string fileExtension = Path.GetExtension (file.FileName);
+                    string fileExtension = Path.GetExtension(Upload.FileName);
                     if (fileExtension != ".csv") {
-                        ViewBag.Message = "Please select the csv file";
-                        return View ("Admin");
+                        ViewBag.Message = "only csv file allowed";
+                        return View("Admin");
                     }
-                    using (var reader = new StreamReader (file.OpenReadStream ())) {
-                        string[] header = reader.ReadLine ().Split (',');
+                    using (var reader = new StreamReader (Upload.OpenReadStream ())) {
+                        string[] headers = reader.ReadLine ().Split (',');
                         while (!reader.EndOfStream) {
-                            Console.WriteLine ("HOMEEE");
+                            Console.WriteLine("HOMEEE");
                             string[] rows = reader.ReadLine ().Split (',');
                             Items objek = new Items {
                                 title = rows[0].ToString (),
@@ -80,7 +85,7 @@ namespace Task_Web_Product.Controllers {
                                 image = rows[4].ToString (),
                                 CartsID = 1,
                                 total = 0,
-                                id = 100
+                                id =100
                             };
                             _AppDbContext.items.Add (objek);
                         }
@@ -93,6 +98,7 @@ namespace Task_Web_Product.Controllers {
             }
             return View ("Admin");
         }
+
 
         public IActionResult Search (string val) {
             var show = from a in _AppDbContext.items where (a.title.Contains (val) || a.desc.Contains (val)) select a;
@@ -148,6 +154,7 @@ namespace Task_Web_Product.Controllers {
             return View ("Detail");
         }
         public IActionResult Addproduct (string title, string image, string desc, int price, int rate) {
+            if(title!=null) {
             Items obj = new Items {
                 title = title,
                 image = image,
@@ -156,10 +163,10 @@ namespace Task_Web_Product.Controllers {
                 rate = rate,
                 total = 0,
                 CartsID = 1
-
             };
             _AppDbContext.Add (obj);
             _AppDbContext.SaveChanges ();
+            }
             return View ();
         }
 
@@ -202,15 +209,22 @@ namespace Task_Web_Product.Controllers {
             return View ("Editproduct");
         }
 
+        public IActionResult Admin() {
+            return View();
+        }
+
         public IActionResult Login (string username, string password) {
-            var items = from item in _AppDbContext.account select item;
-            foreach (var x in items) {
+            var acc = from item in _AppDbContext.account select item;
+            var _get = from item in _AppDbContext.items where item.rate > 5 select item;
+            foreach (var x in acc) {
                 if (x.username == username) {
                     if (Convert.ToString (x.password) == password) {
                         HttpContext.Session.SetString ("username", username);
-                        var _get = from item in _AppDbContext.items where item.rate > 8 select item;
+                        if(x.role=="admin") {
+                        return View ("Admin"); }
+                        else if(x.role=="user") {
                         ViewBag.items = _get;
-                        return View ("Admin");
+                        return View ("Welcomepage"); }
                     } else {
                         ViewBag.error = "Invalid Password";
                     }
@@ -228,10 +242,29 @@ namespace Task_Web_Product.Controllers {
             ViewBag.items = display;
             return View ("Cart");
         }
-        public IActionResult Purchase (int total) {
-            ViewBag.items = total;
+        public IActionResult CheckoutForm (int total) {
+            // Purchase objek = new Purchase () {
+            //     totalPurchase = total,                
+            // };
+            var PurchasedItem = from x in _AppDbContext.items where x.CartsID!=null select x;
+            ViewBag.items = PurchasedItem;
+            ViewBag.total = total;
             return View ("Purchaseform");
         }
+        public IActionResult Purchase (string fullname, string email, string phone, string address, int total) {
+            Console.WriteLine(fullname);
+            var objek = new Purchase {
+                nama = fullname,
+                email = email,
+                phone_number = phone,
+                totalPurchase = total,
+                payment_method = "bca"
+            };
+            _AppDbContext.Add (objek);
+            _AppDbContext.SaveChanges ();
+            return View ("Checkout");
+        }
+
         public IActionResult Update (int id, int val) {
             var item = _AppDbContext.items.Find (id);
             item.total = val;
@@ -278,12 +311,13 @@ namespace Task_Web_Product.Controllers {
             _AppDbContext.SaveChanges ();
             var display = from x in _AppDbContext.carts from y in x.produk where y.CartsID == 1 && y.total > 0 select y;
             ViewBag.items = display;
-            return RedirectToAction ("Cart", "Home");
+            return RedirectToAction ("Cart","Home");
         }
 
         public IActionResult Privacy () {
             return View ();
         }
+
 
         [ResponseCache (Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error () {

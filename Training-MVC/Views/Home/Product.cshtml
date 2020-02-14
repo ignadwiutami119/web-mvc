@@ -1,14 +1,67 @@
 @{
-    ViewData["Title"] = "Our Good Collections";
+    Layout = null;
 }
 
-<h2>@ViewData["Title"]</h2>
-<p>Here is our product</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    /* Remove the navbar's default rounded borders and increase the bottom margin */ 
+    .navbar {
+      margin-bottom: 50px;
+      border-radius: 0;
+      background-color: #191716;
+    }
+    
+    /* Remove the jumbotron's default bottom margin */ 
+     .jumbotron {
+      margin-bottom: 0;
+    }
+   
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">Bellroy</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="/Home/Welcomepage/">Home</a></li>
+        <li class="active"><a href="/Home/Product/">Products</a></li>
+        <li><a href="/Home/Cart/">Cart</a></li>
+        <li><a href="/Home/Privacy">Privacy</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+         <li><a href="/Home/Index/"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
 <div class="text-right">
 <form action="" method="post">
                 <input  id="search_input" type="text" name="cart"  placeholder="  Search Product">
                 <button id="search_btn" type="button" class="btn btn-primary" value="search" onclick="javascript:search(this)">Search</button><br>
-            </form>
+            </form><br>
 <form action="" method="post">
                 <select id="sort_input" name="sort">
                 <option value="default">Default</option>
@@ -20,26 +73,20 @@
                 <button id="search_btn" type="button" class="btn btn-primary" value="search" onclick="javascript:sorting(this)">Sort</button><br><br>
             </form>
 </div>
-<div class="text-center">
-    @{
-        var get = ViewBag.items;
-        foreach (var item in get)
-        {
-            <div>
-                <h6>@item.title</h6>
-                <div>
-                    <img src=@item.image width="500px">
-                </div>
-                <h6>Price : Rp.@item.price</h6>
-                <a  style="type:button color:blue font-family: courier; font-size: 100%" href="Detail/@item.id">Detail</a>
-                <br>
-                <br>
-                <br>
-            </div>
-        }
-    }
-</div>
 
+<div class="text-center">
+   @{
+    var items = ViewBag.items;
+    foreach(var item in items) {
+    <div class="col-sm-4">
+      <a style="color:#111010">@item.title</a><br>
+      <img src=@item.image class="img-responsive" style="width:100%" alt="Image">
+      <a style="color:#111010" href="/Home/Detail/@item.id">Detail</a><br>
+    </div> }
+}
+
+</div>
+<br>
 <form action="" method="post">
                 <select id="paging_input" name="sort">
                 <option value="1">Page 1</option>
@@ -50,6 +97,14 @@
                 <input  id="setPage_input" type="text" name="cart"  placeholder=" show how many items?">
                 <button id="page_btn" type="button" class="btn btn-primary" value="search" onclick="javascript:paging(this)"> Go </button><br><br>
             </form>
+
+</div> </div>
+             <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - Bellroy - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    </body>
 
 <script type="text/javascript">
 function search()
@@ -70,5 +125,5 @@ function paging()
     var set = document.getElementById("setPage_input").value;
     location.href='/Home/Paging?val='+value+'&set='+set;
 }
-
 </script>
+

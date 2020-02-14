@@ -1,39 +1,143 @@
 @{
-    ViewData["Title"]="Pick up your favorite goods";
+    Layout = null;
 }
-    @{
-        var get = ViewBag.items;
-        int sum = 0;
-        int total = 0;
-        foreach (var item in get)
-        {
-                sum= @item.total*@item.price;
-                total+=sum;
 
-                <section>
-                <div class="text-center">
-                <h6>@item.title</h6>
-                <img src=@item.image width="500px"> </div> </section>
-
-                <aside>
-                <div class="text-right">
-                <h6>Price : Rp.@item.price</h6>
-                <h6>Total : @item.total</h6>
-                <h6>Total Price : @sum</h6>
-                <br>
-                <form action="" method="post">
-                <input  id="inp-@item.id" type="text" value="" name="cart" id="cartupdate" placeholder="  Add to cart">
-                <button id="upd-@item.id" type="button" class="btn btn-primary" value="update" onclick="javascript:submitUpdate(this)">Update</button>
-                <button id="rem-@item.id" type="button" class="btn btn-secondary" value="remove" onclick="javascript:remove(this)">Remove</button><br><br>
-            </form> </div> </aside> 
-        }
-        <div class="text-center">
-            <br> <br>
-            <h5>Total price in cart</h5>
-            <h5 id="total">@total</h5>
-            <button id="checkout" type="button" class="btn btn-primary" value="checkout" onclick="javascript:checkout(this)">Checkout</button>
-            </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    /* Remove the navbar's default rounded borders and increase the bottom margin */ 
+    .navbar {
+      margin-bottom: 50px;
+      border-radius: 0;
+      background-color: #191716;
     }
+    
+    /* Remove the jumbotron's default bottom margin */ 
+     .jumbotron {
+      margin-bottom: 0;
+    }
+   
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">Bellroy</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="/Home/Welcomepage/">Home</a></li>
+        <li><a href="/Home/Product/">Products</a></li>
+        <li class="active"><a href="/Home/Cart/">Cart</a></li>
+        <li><a href="/Home/Privacy">Privacy</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+         <li><a href="/Home/Index/"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+        </div>
+    </div>
+</nav>
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="heading">PICK YOUR BELLROY</h1>
+        <h3 class="heading">we will always provide you our best</h3>
+     </div>
+</section>
+<br><br>
+
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col"> </th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Available</th>
+                            <th scope="col" class="text-center">Quantity</th>
+                            <th scope="col" class="text-right">Price</th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         @{
+                         var get = ViewBag.items;
+                         int sum = 0;
+                         int total = 0;
+                         foreach (var item in get)
+                            {
+                         sum= @item.total*@item.price;
+                         total+=sum;
+                        <tr>
+                            <td><img style="width:100px" src=@item.image /> </td>
+                            <td>@item.title</td>
+                            <td>In stock</td>
+                            <td><input id="inp-@item.id" class="form-control" type="text" value=@item.total /></td>
+                            <td class="text-right">Rp. @item.price</td>
+                            <td>
+                            <div class="text-right">
+                            <button id="upd-@item.id" type="button" class="btn btn-success" value="update" onclick="javascript:submitUpdate(this)">Update</button>
+                            <button id="rem-@item.id" type="button" class="btn btn-danger" value="remove" onclick="javascript:remove(this)">Remove</button>
+                            </div></td>
+                        </tr> }
+                         }
+                       
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>Total (Rp)</strong></td>
+                            <td class="text-right"><strong id="total">@total</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col mb-2">
+            <div class="row">
+                <div class="col-sm-12  col-md-6">
+                    <button class="btn btn-block btn-light" onclick="location.href='/Home/Product'">Continue Shopping</button>
+                </div>
+                <div class="col-sm-12 col-md-6 text-right">
+                    <button class="btn btn-lg btn-block btn-primary text-uppercase" onclick="javascript:checkout(this)">Checkout</button>
+                </div>
+            </div>
+        </div>
+        <br><br>
+    </div>
+</div>
+
+ <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - Bellroy - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+</body>
+</html>
 
 <script type="text/javascript">
 function submitUpdate(buttonSubmit)
@@ -54,6 +158,6 @@ function remove(btn) {
 function checkout(btn) {
     var get = "total";
     var total = document.getElementById(get).innerHTML;
-    location.href='/Home/Purchase?total='+total;
+    location.href='/Home/CheckoutForm?total='+total;
 }
 </script>

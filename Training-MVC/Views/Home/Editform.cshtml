@@ -1,11 +1,35 @@
 @{
-    ViewData["Title"] = "Login Page";
+    Layout = null;
 }
 
 <!DOCTYPE html>
-<html>
-    <style>
-.form-style{
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    /* Remove the navbar's default rounded borders and increase the bottom margin */ 
+    .navbar {
+      margin-bottom: 50px;
+      border-radius: 0;
+      background-color: #191716;
+    }
+    
+    /* Remove the jumbotron's default bottom margin */ 
+     .jumbotron {
+      margin-bottom: 0;
+    }
+   
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+
+	.form-style{
 	font: 95% Arial, Helvetica, sans-serif;
 	max-width: 400px;
 	margin: 10px auto;
@@ -84,12 +108,34 @@
 .form-style input[type="button"]:hover{
 	background: #335AF6;
 }
-</style>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
+  </style>
 </head>
+
 <body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">Admin</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="/Home/Admin/">Manage Product</a></li>
+        <li><a href="">Transaction</a></li>
+        <li><a href="">Traffic</a></li>
+      </ul>
+        <ul class="nav navbar-nav navbar-right">
+         <li><a href="/Home/Index/"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
     <br> <br>
    @{
         var get = ViewBag.items;
