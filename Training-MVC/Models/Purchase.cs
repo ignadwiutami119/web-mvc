@@ -9,6 +9,8 @@ namespace Task_Web_Product.Models
         public string email {get; set;}
         public string phone_number {get; set;}
         public int totalPurchase {get; set;}
-        public string payment_method {get; set;}
+        public string payment_method {get; set;} 
+        public string address {get; set;}
+        public string Zipcode {get; set;}
     }
 }

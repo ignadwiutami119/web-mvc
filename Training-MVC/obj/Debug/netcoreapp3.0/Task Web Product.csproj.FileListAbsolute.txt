@@ -143,7 +143,6 @@ D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Task Web Product
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\Product.cshtml.g.cs
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\Detail.cshtml.g.cs
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\Update.cshtml.g.cs
-D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\Checkout.cshtml.g.cs
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\Microsoft.IdentityModel.JsonWebTokens.dll
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\Microsoft.IdentityModel.Logging.dll
@@ -182,3 +181,6 @@ D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\System.Web.WebPa
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\Microsoft.Web.Infrastructure.dll
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\Purchaseform.cshtml.g.cs
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\Welcomepage.cshtml.g.cs
+D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\Stripe.net.dll
+D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\Pay.cshtml.g.cs
+D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\Success.cshtml.g.cs

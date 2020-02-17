@@ -57,11 +57,31 @@
   </div>
 </nav>
 
+<input  id="setPage_input" type="text" name="cart"  placeholder=" show how many items?">
+<button id="page_btn" type="button" class="btn btn-primary" value="search" onclick="javascript:paging(this)"> Apply </button><br><br>
+
+<nav aria-label="...">
+  <ul class="pagination">
+    <li class="page-item disabled">
+      <span class="page-link">Previous</span>
+    </li>
+    <li class="page-item"><a class="page-link" value="1" id="btn1" href="/Home/Paging?val=1">1</a></li>
+    <li class="page-item"><a class="page-link" value="3" id="btn2" href="/Home/Paging?val=2">2</a></li>
+    <li class="page-item"><a class="page-link" value="3" id="btn3" href="/Home/Paging?val=3">3</a></li>
+    <li class="page-item"><a class="page-link" value="4" id="btn4" href="/Home/Paging?val=4">4</a></li>
+    <li class="page-item"><a class="page-link" value="5" id="btn5" href="/Home/Paging?val=5">5</a></li>
+    <li class="page-item"><a class="page-link" value="6" id="btn6" href="/Home/Paging?val=6">6</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#">Next</a>
+    </li>
+  </ul>
+
 <div class="text-right">
 <form action="" method="post">
                 <input  id="search_input" type="text" name="cart"  placeholder="  Search Product">
                 <button id="search_btn" type="button" class="btn btn-primary" value="search" onclick="javascript:search(this)">Search</button><br>
             </form><br>
+
 <form action="" method="post">
                 <select id="sort_input" name="sort">
                 <option value="default">Default</option>
@@ -81,30 +101,17 @@
     <div class="col-sm-4">
       <a style="color:#111010">@item.title</a><br>
       <img src=@item.image class="img-responsive" style="width:100%" alt="Image">
-      <a style="color:#111010" href="/Home/Detail/@item.id">Detail</a><br>
+      <a style="color:#111010" href="/Home/Detail/@item.id">Detail</a><br><br>
     </div> }
 }
-
-</div>
-<br>
-<form action="" method="post">
-                <select id="paging_input" name="sort">
-                <option value="1">Page 1</option>
-                <option value="2">Page 2</option>
-                <option value="3">Page 3</option>
-                <option value="4">Page 4</option>
-                </select>
-                <input  id="setPage_input" type="text" name="cart"  placeholder=" show how many items?">
-                <button id="page_btn" type="button" class="btn btn-primary" value="search" onclick="javascript:paging(this)"> Go </button><br><br>
-            </form>
-
-</div> </div>
-             <footer class="border-top footer text-muted">
+<br></div>
+    @* <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2020 - Bellroy - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
+    </footer> *@
     </body>
+    </html>
 
 <script type="text/javascript">
 function search()
@@ -121,9 +128,9 @@ function sorting()
 
 function paging()
 {
-    var value = document.getElementById("paging_input").value;
     var set = document.getElementById("setPage_input").value;
-    location.href='/Home/Paging?val='+value+'&set='+set;
+    location.href='/Home/Paging?val='+1+'&set='+set;
 }
+
 </script>
 

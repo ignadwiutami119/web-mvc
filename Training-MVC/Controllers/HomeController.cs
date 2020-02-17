@@ -17,6 +17,7 @@ using Task_Web_Product.Models;
 // using System.Web.Mvc;  
 using CSVLibraryAK;
 using Microsoft.AspNetCore.Authorization;
+using Stripe;
 
 namespace Task_Web_Product.Controllers {
     public class HomeController : Controller {
@@ -32,12 +33,15 @@ namespace Task_Web_Product.Controllers {
             ViewBag.items = items;
             return View ();
         }
+
+        [Authorize]
         public IActionResult Welcomepage () {
             var items = from item in _AppDbContext.items where item.rate > 3 select item;
             ViewBag.items = items;
             return View ();
         }
 
+        [Authorize]
         public IActionResult Export () {
             var comlumHeadrs = new string[] {
                 "Items Id",
@@ -63,19 +67,20 @@ namespace Task_Web_Product.Controllers {
             return File (buffer, "text/csv", $"Item.csv");
         }
 
+        [Authorize]
         public IActionResult Import ([FromForm (Name = "Upload")] IFormFile Upload) {
             string filePath = string.Empty;
             if (Upload != null) {
                 try {
-                    string fileExtension = Path.GetExtension(Upload.FileName);
+                    string fileExtension = Path.GetExtension (Upload.FileName);
                     if (fileExtension != ".csv") {
                         ViewBag.Message = "only csv file allowed";
-                        return View("Admin");
+                        return View ("Admin");
                     }
                     using (var reader = new StreamReader (Upload.OpenReadStream ())) {
                         string[] headers = reader.ReadLine ().Split (',');
                         while (!reader.EndOfStream) {
-                            Console.WriteLine("HOMEEE");
+                            Console.WriteLine ("HOMEEE");
                             string[] rows = reader.ReadLine ().Split (',');
                             Items objek = new Items {
                                 title = rows[0].ToString (),
@@ -85,7 +90,7 @@ namespace Task_Web_Product.Controllers {
                                 image = rows[4].ToString (),
                                 CartsID = 1,
                                 total = 0,
-                                id =100
+                                id = 100
                             };
                             _AppDbContext.items.Add (objek);
                         }
@@ -99,35 +104,70 @@ namespace Task_Web_Product.Controllers {
             return View ("Admin");
         }
 
-
+        [Authorize]
         public IActionResult Search (string val) {
             var show = from a in _AppDbContext.items where (a.title.Contains (val) || a.desc.Contains (val)) select a;
             ViewBag.items = show;
             return View ("Product");
         }
 
+        [Authorize]
         public IActionResult Product () {
             var items = from a in _AppDbContext.items select a;
             ViewBag.items = items;
             return View ("Product");
         }
-        public IActionResult Paging (int val, int set = 4) {
-            var take = set;
+
+        [Authorize]
+        public IActionResult Paging (string set,int val=1) {
+            if (!_AppDbContext.page.Any ()) {
+                Page page = new Page () {
+                    total = Convert.ToInt32(set)
+                };
+                _AppDbContext.page.Add (page);
+                _AppDbContext.SaveChanges ();
+            } else {
+                if (set!=null) {
+                    var get = from x in _AppDbContext.page select x;
+                    foreach (var item in get) {
+                        item.total = Convert.ToInt32(set);
+                    }
+                    _AppDbContext.SaveChanges ();
+                }
+            }
+
+            var set_page = _AppDbContext.page.Find (1);
             if (val == 1) {
+                var take = set_page.total;
                 var show = from a in _AppDbContext.items.Take (take) select a;
                 ViewBag.items = show;
             } else if (val == 2) {
+                var take = set_page.total;
                 var show = from a in _AppDbContext.items.Skip (take).Take (take) select a;
                 ViewBag.items = show;
             } else if (val == 3) {
+                var take = set_page.total;
                 var show = from a in _AppDbContext.items.Skip (take * 2).Take (take) select a;
                 ViewBag.items = show;
             } else if (val == 4) {
+                var take = set_page.total;
                 var show = from a in _AppDbContext.items.Skip (take * 3).Take (take) select a;
+                ViewBag.items = show;
+            }
+             else if (val == 5) {
+                var take = set_page.total;
+                var show = from a in _AppDbContext.items.Skip (take * 4).Take (take) select a;
+                ViewBag.items = show;
+            }
+             else if (val == 6) {
+                var take = set_page.total;
+                var show = from a in _AppDbContext.items.Skip (take * 5).Take (take) select a;
                 ViewBag.items = show;
             }
             return View ("Product");
         }
+
+        [Authorize]
         public IActionResult Sort (string val) {
             if (val == "default") {
                 var obj = from x in _AppDbContext.items select x;
@@ -148,14 +188,17 @@ namespace Task_Web_Product.Controllers {
             return View ("Product");
         }
 
+        [Authorize]
         public IActionResult Detail (int Id) {
             var items = from i in _AppDbContext.items where i.id == Id select i;
             ViewBag.items = items;
             return View ("Detail");
         }
+
+        [Authorize]
         public IActionResult Addproduct (string title, string image, string desc, int price, int rate) {
-            if(title!=null) {
-            Items obj = new Items {
+            if (title != null) {
+                Items obj = new Items {
                 title = title,
                 image = image,
                 desc = desc,
@@ -163,19 +206,21 @@ namespace Task_Web_Product.Controllers {
                 rate = rate,
                 total = 0,
                 CartsID = 1
-            };
-            _AppDbContext.Add (obj);
-            _AppDbContext.SaveChanges ();
+                };
+                _AppDbContext.Add (obj);
+                _AppDbContext.SaveChanges ();
             }
             return View ();
         }
 
+        [Authorize]
         public IActionResult Editproduct () {
             var items = from item in _AppDbContext.items select item;
             ViewBag.items = items;
             return View ("Editproduct");
         }
 
+        [Authorize]
         public IActionResult RemoveProduct (int id) {
             if (id != 0) {
                 var obj = _AppDbContext.items.Find (id);
@@ -187,11 +232,14 @@ namespace Task_Web_Product.Controllers {
             return View ("Editproduct");
         }
 
+        [Authorize]
         public IActionResult Editform (int id) {
             var selected_item = from item in _AppDbContext.items where item.id == id select item;
             ViewBag.items = selected_item;
             return View ("Editform");
         }
+
+        [Authorize]
         public IActionResult EditData (int id, string title, string image, string desc, int price, int rate) {
             var objek = _AppDbContext.items.Find (id);
             objek.title = title;
@@ -209,8 +257,9 @@ namespace Task_Web_Product.Controllers {
             return View ("Editproduct");
         }
 
-        public IActionResult Admin() {
-            return View();
+        [Authorize]
+        public IActionResult Admin () {
+            return View ();
         }
 
         public IActionResult Login (string username, string password) {
@@ -220,11 +269,12 @@ namespace Task_Web_Product.Controllers {
                 if (x.username == username) {
                     if (Convert.ToString (x.password) == password) {
                         HttpContext.Session.SetString ("username", username);
-                        if(x.role=="admin") {
-                        return View ("Admin"); }
-                        else if(x.role=="user") {
-                        ViewBag.items = _get;
-                        return View ("Welcomepage"); }
+                        if (x.role == "admin") {
+                            return View ("Admin");
+                        } else if (x.role == "user") {
+                            ViewBag.items = _get;
+                            return View ("Welcomepage");
+                        }
                     } else {
                         ViewBag.error = "Invalid Password";
                     }
@@ -237,34 +287,70 @@ namespace Task_Web_Product.Controllers {
             return View ();
         }
 
+        [Authorize]
         public IActionResult Cart (int id) {
             var display = from x in _AppDbContext.carts from y in x.produk where y.CartsID == 1 select y;
             ViewBag.items = display;
             return View ("Cart");
         }
+
+        [Authorize]
         public IActionResult CheckoutForm (int total) {
             // Purchase objek = new Purchase () {
             //     totalPurchase = total,                
             // };
-            var PurchasedItem = from x in _AppDbContext.items where x.CartsID!=null select x;
+            var PurchasedItem = from x in _AppDbContext.items where x.CartsID != null select x;
             ViewBag.items = PurchasedItem;
             ViewBag.total = total;
             return View ("Purchaseform");
         }
-        public IActionResult Purchase (string fullname, string email, string phone, string address, int total) {
-            Console.WriteLine(fullname);
+
+        [Authorize]
+        public IActionResult Pay (string fullname, string email, string phone, string address, int total, string zip) {
             var objek = new Purchase {
                 nama = fullname,
                 email = email,
+                address = address,
                 phone_number = phone,
                 totalPurchase = total,
+                Zipcode = zip,
                 payment_method = "bca"
             };
+            var obj = _AppDbContext.carts.Find (1);
+            obj.TotalPrice = total;
+            ViewBag.total = total;
             _AppDbContext.Add (objek);
             _AppDbContext.SaveChanges ();
-            return View ("Checkout");
+            return View ("Pay");
         }
 
+        [Authorize]
+        public IActionResult Stripe_payment (string stripeEmail, string stripeToken) {
+            var customer = new CustomerService ();
+            var charges = new ChargeService ();
+            var customers = customer.Create (new CustomerCreateOptions {
+                Email = stripeEmail,
+                    Source = stripeToken
+            });
+            var get = from i in _AppDbContext.carts select i;
+            foreach (var i in get) {
+                var charge = charges.Create (new ChargeCreateOptions {
+                    Amount = i.TotalPrice,
+                        Description = "Test Payment",
+                        Currency = "idr",
+                        Customer = customers.Id
+                });
+                if (charge.Status == "succeeded") {
+                    string BalanceTransactionId = charge.BalanceTransactionId;
+                    return View ("Success");
+                } else {
+
+                }
+            }
+            return View ("Success");
+        }
+
+        [Authorize]
         public IActionResult Update (int id, int val) {
             var item = _AppDbContext.items.Find (id);
             item.total = val;
@@ -275,6 +361,8 @@ namespace Task_Web_Product.Controllers {
             ViewBag.items = display;
             return RedirectToAction ("Cart", "Home");
         }
+
+        [Authorize]
         public IActionResult RemoveCart (int id) {
             var item = _AppDbContext.items.Find (id);
             var total = item.total = 0;
@@ -286,6 +374,8 @@ namespace Task_Web_Product.Controllers {
             ViewBag.items = display;
             return RedirectToAction ("Cart", "Home");
         }
+
+        [Authorize]
         public IActionResult Checkout (int total) {
             var item = _AppDbContext.carts.Find (1);
             item.TotalPrice = total;
@@ -297,6 +387,7 @@ namespace Task_Web_Product.Controllers {
             return View ("Checkout");
         }
 
+        [Authorize]
         public IActionResult Add (int id) {
             var ca = _AppDbContext.carts.Find (1);
             var item = _AppDbContext.items.Find (id);
@@ -311,13 +402,40 @@ namespace Task_Web_Product.Controllers {
             _AppDbContext.SaveChanges ();
             var display = from x in _AppDbContext.carts from y in x.produk where y.CartsID == 1 && y.total > 0 select y;
             ViewBag.items = display;
-            return RedirectToAction ("Cart","Home");
+            return RedirectToAction ("Cart", "Home");
         }
 
+        [Authorize]
+        public IActionResult Purchase (string stripeEmail, string stripeToken) {
+            var customer = new CustomerService ();
+            var charges = new ChargeService ();
+            var customers = customer.Create (new CustomerCreateOptions {
+                Email = stripeEmail,
+                    Source = stripeToken
+            });
+            var x = from i in _AppDbContext.purchases select i;
+            var last = _AppDbContext.purchases.Last ();
+            foreach (var i in x) {
+                if (i.Equals (last)) {
+                    var charge = charges.Create (new ChargeCreateOptions {
+                        Amount = i.totalPurchase,
+                            Description = "Test Payment",
+                            Currency = "idr",
+                            Customer = customers.Id
+                    });
+                    if (charge.Status == "succeeded") {
+                        string BalanceTransactionId = charge.BalanceTransactionId;
+                        return View ("Success");
+                    }
+                }
+            }
+            return View ("Success");
+        }
+
+        [Authorize]
         public IActionResult Privacy () {
             return View ();
         }
-
 
         [ResponseCache (Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error () {
