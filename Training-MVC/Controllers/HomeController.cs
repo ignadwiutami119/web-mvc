@@ -105,6 +105,13 @@ namespace Task_Web_Product.Controllers {
         }
 
         [Authorize]
+        public IActionResult TransactionList () {
+            var get = from a in _AppDbContext.purchases select a;
+            ViewBag.items = get;
+            return View ("Transaction");
+        }
+
+        [Authorize]
         public IActionResult Search (string val) {
             var show = from a in _AppDbContext.items where (a.title.Contains (val) || a.desc.Contains (val)) select a;
             ViewBag.items = show;
@@ -113,55 +120,66 @@ namespace Task_Web_Product.Controllers {
 
         [Authorize]
         public IActionResult Product () {
-            var items = from a in _AppDbContext.items select a;
-            ViewBag.items = items;
+            if (!_AppDbContext.paging.Any ()) {
+                Paging page = new Paging ();
+                _AppDbContext.paging.Add (page);
+                _AppDbContext.SaveChanges ();
+            }
+            var set_page = _AppDbContext.paging.Find (1);
+            var take = set_page.showitem;
+            var show = from a in _AppDbContext.items.Take (take) select a;
+            ViewBag.items = show;
             return View ("Product");
         }
 
         [Authorize]
-        public IActionResult Paging (string set,int val=1) {
-            if (!_AppDbContext.page.Any ()) {
-                Page page = new Page () {
-                    total = Convert.ToInt32(set)
+        public IActionResult Paging (string set, int _crntpage = 1, int val = 1, int next = 0, int prev = 0) {
+            if (!_AppDbContext.paging.Any ()) {
+            Paging page = new Paging () {
+            showitem = Convert.ToInt32 (set),
+            curent_page = _crntpage
                 };
-                _AppDbContext.page.Add (page);
+                _AppDbContext.paging.Add (page);
                 _AppDbContext.SaveChanges ();
             } else {
-                if (set!=null) {
-                    var get = from x in _AppDbContext.page select x;
-                    foreach (var item in get) {
-                        item.total = Convert.ToInt32(set);
+                if (set != null) {
+                    var getpage = from x in _AppDbContext.paging select x;
+                    foreach (var item in getpage) {
+                        item.showitem = Convert.ToInt32 (set);
                     }
                     _AppDbContext.SaveChanges ();
                 }
             }
 
-            var set_page = _AppDbContext.page.Find (1);
-            if (val == 1) {
-                var take = set_page.total;
+            //ganti nilai curent page
+            // if (next==1) {
+            //     var getpage = _AppDbContext.paging.Find(1);
+            //     var pagenow = getpage.curent_page;
+            //     getpage.curent_page = 3;
+            //     _AppDbContext.SaveChanges ();
+            // }
+
+            // if (prev==1) {
+            //     var getpage = from x in _AppDbContext.paging select x;
+            //     foreach (var item in getpage) {
+            //         item.curent_page--;
+            //     }
+            //     _AppDbContext.SaveChanges ();
+            // }
+
+            var get = from x in _AppDbContext.paging select x;
+            foreach (var item in get) {
+                item.curent_page = _crntpage;
+            }
+            _AppDbContext.SaveChanges ();
+            var set_page = _AppDbContext.paging.Find (1);
+            if (set_page.curent_page == 1) {
+                var take = set_page.showitem;
                 var show = from a in _AppDbContext.items.Take (take) select a;
                 ViewBag.items = show;
-            } else if (val == 2) {
-                var take = set_page.total;
-                var show = from a in _AppDbContext.items.Skip (take).Take (take) select a;
-                ViewBag.items = show;
-            } else if (val == 3) {
-                var take = set_page.total;
-                var show = from a in _AppDbContext.items.Skip (take * 2).Take (take) select a;
-                ViewBag.items = show;
-            } else if (val == 4) {
-                var take = set_page.total;
-                var show = from a in _AppDbContext.items.Skip (take * 3).Take (take) select a;
-                ViewBag.items = show;
-            }
-             else if (val == 5) {
-                var take = set_page.total;
-                var show = from a in _AppDbContext.items.Skip (take * 4).Take (take) select a;
-                ViewBag.items = show;
-            }
-             else if (val == 6) {
-                var take = set_page.total;
-                var show = from a in _AppDbContext.items.Skip (take * 5).Take (take) select a;
+            } else {
+                var take = set_page.showitem;
+                var show = from a in _AppDbContext.items.Skip (take * (set_page.curent_page - 1)).Take (take) select a;
                 ViewBag.items = show;
             }
             return View ("Product");
@@ -169,21 +187,32 @@ namespace Task_Web_Product.Controllers {
 
         [Authorize]
         public IActionResult Sort (string val) {
+            if (!_AppDbContext.paging.Any ()) {
+                Paging page = new Paging ();
+                _AppDbContext.paging.Add (page);
+                _AppDbContext.SaveChanges ();
+            }
+            var set_page = _AppDbContext.paging.Find (1);
             if (val == "default") {
-                var obj = from x in _AppDbContext.items select x;
-                ViewBag.items = obj;
+                var take = set_page.showitem;
+                var show = from a in _AppDbContext.items.Skip (take * (set_page.curent_page - 1)).Take (take) select a;
+                ViewBag.items = show;
             } else if (val == "name_asc") {
-                var obj = from x in _AppDbContext.items orderby x.title select x;
-                ViewBag.items = obj;
+                var take = set_page.showitem;
+                var show = from a in _AppDbContext.items.Skip (take * (set_page.curent_page - 1)).Take (take) orderby a.title select a;
+                ViewBag.items = show;
             } else if (val == "name_desc") {
-                var obj = from x in _AppDbContext.items orderby x.title descending select x;
-                ViewBag.items = obj;
+                var take = set_page.showitem;
+                var show = from a in _AppDbContext.items.Skip (take * (set_page.curent_page - 1)).Take (take) orderby a.title descending select a;
+                ViewBag.items = show;
             } else if (val == "price_asc") {
-                var obj = from x in _AppDbContext.items orderby x.price select x;
-                ViewBag.items = obj;
+                var take = set_page.showitem;
+                var show = from a in _AppDbContext.items.Skip (take * (set_page.curent_page - 1)).Take (take) orderby a.price select a;
+                ViewBag.items = show;
             } else if (val == "price_desc") {
-                var obj = from x in _AppDbContext.items orderby x.price descending select x;
-                ViewBag.items = obj;
+                var take = set_page.showitem;
+                var show = from a in _AppDbContext.items.Skip (take * (set_page.curent_page - 1)).Take (take) orderby a.price descending select a;
+                ViewBag.items = show;
             }
             return View ("Product");
         }
@@ -259,7 +288,9 @@ namespace Task_Web_Product.Controllers {
 
         [Authorize]
         public IActionResult Admin () {
-            return View ();
+            var get = from a in _AppDbContext.items select a;
+            ViewBag.items = get;
+            return View ("AdminPage");
         }
 
         public IActionResult Login (string username, string password) {
@@ -296,9 +327,6 @@ namespace Task_Web_Product.Controllers {
 
         [Authorize]
         public IActionResult CheckoutForm (int total) {
-            // Purchase objek = new Purchase () {
-            //     totalPurchase = total,                
-            // };
             var PurchasedItem = from x in _AppDbContext.items where x.CartsID != null select x;
             ViewBag.items = PurchasedItem;
             ViewBag.total = total;
@@ -314,7 +342,7 @@ namespace Task_Web_Product.Controllers {
                 phone_number = phone,
                 totalPurchase = total,
                 Zipcode = zip,
-                payment_method = "bca"
+                payment_method = "Card"
             };
             var obj = _AppDbContext.carts.Find (1);
             obj.TotalPrice = total;
@@ -347,7 +375,7 @@ namespace Task_Web_Product.Controllers {
 
                 }
             }
-            return View ("Success");
+            return View ();
         }
 
         [Authorize]

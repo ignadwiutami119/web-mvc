@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Task_Web_Product.Models;
 
 namespace Task_Web_Product.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200218021508_modelpagebaru")]
+    partial class modelpagebaru
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,6 +90,21 @@ namespace Task_Web_Product.Migrations
                     b.HasIndex("CartsID");
 
                     b.ToTable("items");
+                });
+
+            modelBuilder.Entity("Task_Web_Product.Models.Page", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("total")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.ToTable("page");
                 });
 
             modelBuilder.Entity("Task_Web_Product.Models.Paging", b =>

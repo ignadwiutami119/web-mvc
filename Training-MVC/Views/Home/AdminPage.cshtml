@@ -22,6 +22,13 @@
      .jumbotron {
       margin-bottom: 0;
     }
+
+    .margin{
+      margin-top: 75px;
+      margin-bottom: 75px;
+      margin-right: 75px;
+      margin-left: 75px;
+    }
    
     /* Add a gray background color and some padding to the footer */
     footer {
@@ -55,45 +62,40 @@
   </div>
 </nav>
 
-<h4 class="text-center"><b>List of Product on Database</b></h4>
-<br><br>
-<div class="text-center">
-    @{
-        var get = ViewBag.items;
-        foreach (var item in get)
-        {
-            <div>
-                <h8>Product ID :</h8>
-                <h8 id="item_id">@item.id</h8>
-                <h5>@item.title</h5>
-                <div>
-                    <img src=@item.image width="200px">
-                </div>
-                <h7>@item.desc</h7>
-                <h6>Price : Rp.@item.price</h6>
-                <br>
-                <button id="edt-@item.id" type="button" class="btn btn-primary" value="update" onclick="javascript:edit(this)">Edit</button>
-                <button id="rem-@item.id" type="button" class="btn btn-secondary" value="remove" onclick="javascript:remove(this)">Remove</button><br><br>
-                <br>
-                <br>
-            </div>
-        }
-    }
-</div>
-</body>
+<h2 class="text-center">Product List</h2>
 
-<script type="text/javascript">
-function edit(btn)
-{
-    var id = btn.id;
-    id = id.substring(4,id.Length);
-    location.href='/Home/Editform?id='+id;
-}
-
-function remove(btn) {
-    var id = btn.id;
-    id = id.substring(4,id.Length);
-    location.href='/Home/RemoveProduct?id='+id;
-}
-
-</script>
+<div class="margin">
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">No</th>
+      <th scope="col">Nama</th>
+      <th scope="col">Image</th>
+      <th scope="col">Description</th>
+      <th scope="col">Price</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+      @{  var count = 0; 
+          var items = ViewBag.items;
+          foreach(var product in items) {
+            count++;
+    <tr>
+      <th>@count</th>
+      <td>@product.title</td>
+      <td><img style="width:70px" src=@product.image></td>
+      <td>@product.desc</td>
+      <td>@product.price</td>
+      <td><button id="upd-@product.id" type="button" class="btn btn-success" value="update" onclick="javascript:submitUpdate(this)"><span class="glyphicon glyphicon-edit"></span></button></td>
+      <td><button id="rem-@product.id" type="button" class="btn btn-danger" value="remove" onclick="javascript:remove(this)"><span class="glyphicon glyphicon-trash"></span></button></td>
+    </tr> }
+      }
+</table> </div> 
+         <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - Bellroy - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    </body>
+    </html>

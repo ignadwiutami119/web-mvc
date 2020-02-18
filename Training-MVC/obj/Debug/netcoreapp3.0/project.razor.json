@@ -14369,6 +14369,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "d:\\TRAININGC#\\FEBRUARI\\MVC\\Training-MVC\\Views\\Home\\Transaction.cshtml",
+      "TargetPath": "Views\\Home\\Transaction.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\TRAININGC#\\FEBRUARI\\MVC\\Training-MVC\\Views\\Home\\Admin.cshtml",
       "TargetPath": "Views\\Home\\Admin.cshtml",
       "FileKind": "mvc"
@@ -14379,8 +14384,8 @@
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\TRAININGC#\\FEBRUARI\\MVC\\Training-MVC\\Views\\Home\\Update.cshtml",
-      "TargetPath": "Views\\Home\\Update.cshtml",
+      "FilePath": "d:\\TRAININGC#\\FEBRUARI\\MVC\\Training-MVC\\Views\\Home\\AdminPage.cshtml",
+      "TargetPath": "Views\\Home\\AdminPage.cshtml",
       "FileKind": "mvc"
     },
     {

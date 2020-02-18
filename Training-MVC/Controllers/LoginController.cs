@@ -42,10 +42,11 @@ namespace MVC.Controllers {
                 var get = HttpContext.Session.GetString ("JWTToken");
                 var cek = from x in _appDbContext.account select x;
                 foreach (var item in cek) {
-                    if (item.username == Username && item.password == Password && item.role == "admin"){
-                        return RedirectToAction ("DataAdmin", "Admin");}
-                        else if(item.username == Username && item.password == Password && item.role == "user"){
-                        return RedirectToAction ("DataUser", "Admin");}
+                    if (item.username == Username && item.password == Password && item.role == "admin") {
+                        return RedirectToAction ("DataAdmin", "Admin");
+                    } else if (item.username == Username && item.password == Password && item.role == "user") {
+                        return RedirectToAction ("DataUser", "Admin");
+                    }
                 }
                 return RedirectToAction ("DataAdmin", "Admin");
             }
@@ -105,6 +106,12 @@ namespace MVC.Controllers {
             var items = from i in _appDbContext.items select i;
             ViewBag.items = items;
             return RedirectToAction ("Welcomepage", "Home");
+        }
+        
+        [Authorize]
+        public IActionResult Logout () {
+            HttpContext.Session.Remove ("JWTToken");
+            return RedirectToAction ("Index","Home");
         }
 
         [ResponseCache (Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
