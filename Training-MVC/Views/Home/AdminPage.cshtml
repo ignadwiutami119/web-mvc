@@ -24,10 +24,13 @@
     }
 
     .margin{
-      margin-top: 75px;
       margin-bottom: 75px;
       margin-right: 75px;
       margin-left: 75px;
+    }
+
+    .marginleft{
+      margin-left: 75px; 
     }
    
     /* Add a gray background color and some padding to the footer */
@@ -52,7 +55,8 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="/Home/Admin/">Manage Product</a></li>
+        <li><a href="/Home/AdminPage/">Manage Product</a></li>
+        <li><a href="/Home/Csv/">Export/Import CSV</a></li>
         <li><a href="/Home/TransactionList/">Transaction</a></li>
       </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -64,6 +68,8 @@
 
 <h2 class="text-center">Product List</h2>
 
+
+<button id="Add Product" type="button" class="btn btn-primary marginleft" value="Admin" onclick="location.href='/Home/Addproduct'"><span class="glyphicon glyphicon-plus"></span> New Product</button><br> <br>
 <div class="margin">
 <table class="table">
   <thead class="thead-dark">
@@ -87,7 +93,7 @@
       <td><img style="width:70px" src=@product.image></td>
       <td>@product.desc</td>
       <td>@product.price</td>
-      <td><button id="upd-@product.id" type="button" class="btn btn-success" value="update" onclick="javascript:submitUpdate(this)"><span class="glyphicon glyphicon-edit"></span></button></td>
+      <td><button id="upd-@product.id" type="button" class="btn btn-success" value="update" onclick="javascript:edit(this)"><span class="glyphicon glyphicon-edit"></span></button></td>
       <td><button id="rem-@product.id" type="button" class="btn btn-danger" value="remove" onclick="javascript:remove(this)"><span class="glyphicon glyphicon-trash"></span></button></td>
     </tr> }
       }
@@ -99,3 +105,19 @@
     </footer>
     </body>
     </html>
+
+<script type="text/javascript">
+function edit(btn)
+{
+    var id = btn.id;
+    id = id.substring(4,id.Length);
+    location.href='/Home/Editform?id='+id;
+}
+
+function remove(btn) {
+    var id = btn.id;
+    id = id.substring(4,id.Length);
+    location.href='/Home/RemoveProduct?id='+id;
+}
+
+</script>

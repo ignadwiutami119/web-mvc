@@ -125,7 +125,8 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="/Home/Admin/">Manage Product</a></li>
+        <li><a href="/Home/AdminPage/">Manage Product</a></li>
+        <li><a href="/Home/Csv/">Export/Import CSV</a></li>
         <li><a href="/Home/TransactionList/">Transaction</a></li>
       </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -161,6 +162,6 @@ function AddProduct(buttonSubmit)
     var desc = document.getElementById("desc").value;
     var price = document.getElementById("price").value;
     var rate = document.getElementById("rate").value;
-    location.href='/Home/Addproduct?title='+title+'&image='+image+'&desc='+desc+'&price='+price+'&rate='+rate;
+    location.href='/Home/Add_Data_Product?title='+title+'&image='+image+'&desc='+desc+'&price='+price+'&rate='+rate;
 }
 </script>

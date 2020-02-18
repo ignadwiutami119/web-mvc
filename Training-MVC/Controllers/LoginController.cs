@@ -94,7 +94,7 @@ namespace MVC.Controllers {
             var sub = securityToken?.Claims.First (Claim => Claim.Type == "sub").Value;
             var items = from i in _appDbContext.items select i;
             ViewBag.items = items;
-            return RedirectToAction ("Admin", "Home");
+            return RedirectToAction ("AdminPage", "Home");
         }
 
         [Authorize]

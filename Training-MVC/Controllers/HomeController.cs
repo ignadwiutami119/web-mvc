@@ -29,14 +29,12 @@ namespace Task_Web_Product.Controllers {
         }
 
         public IActionResult Index () {
-            var items = from item in _AppDbContext.items where item.rate > 6 select item;
-            ViewBag.items = items;
             return View ();
         }
 
         [Authorize]
         public IActionResult Welcomepage () {
-            var items = from item in _AppDbContext.items where item.rate > 3 select item;
+            var items = from item in _AppDbContext.items where item.rate > 6 select item;
             ViewBag.items = items;
             return View ();
         }
@@ -68,19 +66,18 @@ namespace Task_Web_Product.Controllers {
         }
 
         [Authorize]
-        public IActionResult Import ([FromForm (Name = "Upload")] IFormFile Upload) {
+        public IActionResult Import ([FromForm (Name = "file")] IFormFile file) {
             string filePath = string.Empty;
-            if (Upload != null) {
+            if (file != null) {
                 try {
-                    string fileExtension = Path.GetExtension (Upload.FileName);
+                    string fileExtension = Path.GetExtension (file.FileName);
                     if (fileExtension != ".csv") {
                         ViewBag.Message = "only csv file allowed";
-                        return View ("Admin");
+                        return View ("AdminPage");
                     }
-                    using (var reader = new StreamReader (Upload.OpenReadStream ())) {
+                    using (var reader = new StreamReader (file.OpenReadStream ())) {
                         string[] headers = reader.ReadLine ().Split (',');
                         while (!reader.EndOfStream) {
-                            Console.WriteLine ("HOMEEE");
                             string[] rows = reader.ReadLine ().Split (',');
                             Items objek = new Items {
                                 title = rows[0].ToString (),
@@ -90,18 +87,17 @@ namespace Task_Web_Product.Controllers {
                                 image = rows[4].ToString (),
                                 CartsID = 1,
                                 total = 0,
-                                id = 100
                             };
                             _AppDbContext.items.Add (objek);
                         }
                         _AppDbContext.SaveChanges ();
                     }
-                    return View ("Admin");
+                    return View ("Csv");
                 } catch (Exception e) {
                     ViewBag.Message = e.Message;
                 }
             }
-            return View ("Admin");
+            return View ("Csv");
         }
 
         [Authorize]
@@ -225,7 +221,13 @@ namespace Task_Web_Product.Controllers {
         }
 
         [Authorize]
-        public IActionResult Addproduct (string title, string image, string desc, int price, int rate) {
+        public IActionResult Addproduct() {
+            return View();
+        }
+
+        //untuk menambahkan produk ke database
+        [Authorize]
+        public IActionResult Add_Data_Product(string title, string image, string desc, int price, int rate) {
             if (title != null) {
                 Items obj = new Items {
                 title = title,
@@ -234,20 +236,17 @@ namespace Task_Web_Product.Controllers {
                 price = price,
                 rate = rate,
                 total = 0,
-                CartsID = 1
+                CartsID = null
                 };
                 _AppDbContext.Add (obj);
                 _AppDbContext.SaveChanges ();
             }
-            return View ();
+            var get = from a in _AppDbContext.items select a;
+            ViewBag.items = get;
+            return View("AdminPage");
         }
 
-        [Authorize]
-        public IActionResult Editproduct () {
-            var items = from item in _AppDbContext.items select item;
-            ViewBag.items = items;
-            return View ("Editproduct");
-        }
+
 
         [Authorize]
         public IActionResult RemoveProduct (int id) {
@@ -258,9 +257,10 @@ namespace Task_Web_Product.Controllers {
             }
             var items = from item in _AppDbContext.items select item;
             ViewBag.items = items;
-            return View ("Editproduct");
+            return View ("AdminPage");
         }
 
+        //return view untuk edit produk
         [Authorize]
         public IActionResult Editform (int id) {
             var selected_item = from item in _AppDbContext.items where item.id == id select item;
@@ -268,6 +268,7 @@ namespace Task_Web_Product.Controllers {
             return View ("Editform");
         }
 
+        //eskekusi query untuk mengubah data product
         [Authorize]
         public IActionResult EditData (int id, string title, string image, string desc, int price, int rate) {
             var objek = _AppDbContext.items.Find (id);
@@ -283,14 +284,19 @@ namespace Task_Web_Product.Controllers {
             _AppDbContext.SaveChanges ();
             var selected_item = from item in _AppDbContext.items select item;
             ViewBag.items = selected_item;
-            return View ("Editproduct");
+            return View ("AdminPage");
         }
 
         [Authorize]
-        public IActionResult Admin () {
+        public IActionResult csv () {
+            return View ();
+        }
+
+        [Authorize]
+        public IActionResult AdminPage () {
             var get = from a in _AppDbContext.items select a;
             ViewBag.items = get;
-            return View ("AdminPage");
+            return View ();
         }
 
         public IActionResult Login (string username, string password) {
