@@ -184,3 +184,6 @@ D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\Transaction.cshtml.g.cs
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\AdminPage.cshtml.g.cs
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\Csv.cshtml.g.cs
+D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\MailKit.dll
+D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\MimeKit.dll
+D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\BouncyCastle.Crypto.dll

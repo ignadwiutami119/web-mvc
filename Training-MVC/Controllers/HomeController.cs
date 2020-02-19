@@ -15,8 +15,13 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Protocols;
 using Task_Web_Product.Models;
 // using System.Web.Mvc;  
+using System.Net;
+using System.Net.Mail;
 using CSVLibraryAK;
+using MailKit;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Authorization;
+using MimeKit;
 using Stripe;
 
 namespace Task_Web_Product.Controllers {
@@ -221,13 +226,13 @@ namespace Task_Web_Product.Controllers {
         }
 
         [Authorize]
-        public IActionResult Addproduct() {
-            return View();
+        public IActionResult Addproduct () {
+            return View ();
         }
 
         //untuk menambahkan produk ke database
         [Authorize]
-        public IActionResult Add_Data_Product(string title, string image, string desc, int price, int rate) {
+        public IActionResult Add_Data_Product (string title, string image, string desc, int price, int rate) {
             if (title != null) {
                 Items obj = new Items {
                 title = title,
@@ -243,10 +248,8 @@ namespace Task_Web_Product.Controllers {
             }
             var get = from a in _AppDbContext.items select a;
             ViewBag.items = get;
-            return View("AdminPage");
+            return View ("AdminPage");
         }
-
-
 
         [Authorize]
         public IActionResult RemoveProduct (int id) {
@@ -359,32 +362,6 @@ namespace Task_Web_Product.Controllers {
         }
 
         [Authorize]
-        public IActionResult Stripe_payment (string stripeEmail, string stripeToken) {
-            var customer = new CustomerService ();
-            var charges = new ChargeService ();
-            var customers = customer.Create (new CustomerCreateOptions {
-                Email = stripeEmail,
-                    Source = stripeToken
-            });
-            var get = from i in _AppDbContext.carts select i;
-            foreach (var i in get) {
-                var charge = charges.Create (new ChargeCreateOptions {
-                    Amount = i.TotalPrice,
-                        Description = "Test Payment",
-                        Currency = "idr",
-                        Customer = customers.Id
-                });
-                if (charge.Status == "succeeded") {
-                    string BalanceTransactionId = charge.BalanceTransactionId;
-                    return View ("Success");
-                } else {
-
-                }
-            }
-            return View ();
-        }
-
-        [Authorize]
         public IActionResult Update (int id, int val) {
             var item = _AppDbContext.items.Find (id);
             item.total = val;
@@ -430,7 +407,6 @@ namespace Task_Web_Product.Controllers {
                 _AppDbContext.carts.Add (cart);
                 _AppDbContext.SaveChanges ();
             }
-
             item.total += 1;
             item.CartsID = ca.id;
             _AppDbContext.SaveChanges ();
@@ -440,28 +416,47 @@ namespace Task_Web_Product.Controllers {
         }
 
         [Authorize]
-        public IActionResult Purchase (string stripeEmail, string stripeToken) {
+        public IActionResult Stripe_payment (string stripeEmail, string stripeToken) {
             var customer = new CustomerService ();
             var charges = new ChargeService ();
             var customers = customer.Create (new CustomerCreateOptions {
                 Email = stripeEmail,
                     Source = stripeToken
             });
-            var x = from i in _AppDbContext.purchases select i;
-            var last = _AppDbContext.purchases.Last ();
-            foreach (var i in x) {
-                if (i.Equals (last)) {
-                    var charge = charges.Create (new ChargeCreateOptions {
-                        Amount = i.totalPurchase,
-                            Description = "Test Payment",
-                            Currency = "idr",
-                            Customer = customers.Id
-                    });
-                    if (charge.Status == "succeeded") {
-                        string BalanceTransactionId = charge.BalanceTransactionId;
-                        return View ("Success");
-                    }
-                }
+            var get = from i in _AppDbContext.purchases.OrderBy(i => i.id) select i;
+            var last = get.LastOrDefault();
+                var charge = charges.Create (new ChargeCreateOptions {
+                    Amount = last.totalPurchase,
+                        Description = "Test Payment",
+                        Currency = "idr",
+                        Customer = customers.Id
+                });
+                if (charge.Status == "succeeded") {
+                    string BalanceTransactionId = charge.BalanceTransactionId;
+                    return RedirectToAction ("Mail","Home");
+            }
+            return View ("Pay");
+        }
+
+        [Authorize]
+        public IActionResult Mail () {
+            var message = new MimeMessage ();
+            message.From.Add (new MailboxAddress ("bellroy", "bellroy@bellroy.com"));
+            message.To.Add (new MailboxAddress ("igna", "ignadwiutami@gmail.com"));
+            message.Subject = "Invoice From Bellroy";
+            var get = from i in _AppDbContext.purchases.OrderBy(i => i.id) select i;
+            var last = get.LastOrDefault();
+            message.Body = new TextPart ("plain") {
+                Text = @"Hello "+last.nama+
+                "\nThanks for purchasing our best collection \n" +
+                "Here is your purchase details :\n" +
+                "Amount : Rp. "+last.totalPurchase
+            };
+            using (var emailClient = new MailKit.Net.Smtp.SmtpClient ()) {
+                emailClient.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                emailClient.Connect ("smtp.mailtrap.io", 587, false);
+                emailClient.Authenticate ("31e443602f2a8a", "187ef92862e63c");
+                emailClient.Send (message);
             }
             return View ("Success");
         }
