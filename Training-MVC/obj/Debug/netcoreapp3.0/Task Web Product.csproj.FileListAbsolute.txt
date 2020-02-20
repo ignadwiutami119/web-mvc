@@ -187,3 +187,6 @@ D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\MailKit.dll
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\MimeKit.dll
 D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\BouncyCastle.Crypto.dll
+D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\bin\Debug\netcoreapp3.0\libman.json
+D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\CustomerChat.cshtml.g.cs
+D:\TRAININGC#\FEBRUARI\MVC\Training-MVC\obj\Debug\netcoreapp3.0\Razor\Views\Home\NotificationTransaction.cshtml.g.cs

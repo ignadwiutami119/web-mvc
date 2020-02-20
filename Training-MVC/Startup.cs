@@ -17,7 +17,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using MVC.Data;
 using Newtonsoft.Json;
+using SignalR.SignalR;
 using Stripe;
+using Task_Web_Product.Controllers;
 using Task_Web_Product.Models;
 
 namespace MVC {
@@ -31,6 +33,7 @@ namespace MVC {
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services) {
             services.Configure<StripeSettings> (Configuration.GetSection ("Stripe"));
+            services.AddSignalR ();
             services.AddSession (options => {
                 options.IdleTimeout = TimeSpan.FromMinutes (60);
             });
@@ -104,6 +107,9 @@ namespace MVC {
                 endpoints.MapControllerRoute (
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");;
+
+                endpoints.MapHub<ChatHub> ("/chatHub");
+                endpoints.MapHub<PaymentHub> ("/paymentHub");
             });
         }
     }

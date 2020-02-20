@@ -33,6 +33,9 @@ namespace Task_Web_Product.Controllers {
             _AppDbContext = appDbContext;
         }
 
+        public IActionResult CustomerChat () {
+            return View ();
+        }
         public IActionResult Index () {
             return View ();
         }
