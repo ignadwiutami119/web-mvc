@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -43,14 +44,17 @@ namespace MVC.Controllers {
                 var cek = from x in _appDbContext.account select x;
                 foreach (var item in cek) {
                     if (item.username == Username && item.password == Password && item.role == "admin") {
+                        ViewBag.username = Username;
+                        HttpContext.Response.Cookies.Append("username", Username);
                         return RedirectToAction ("DataAdmin", "Admin");
                     } else if (item.username == Username && item.password == Password && item.role == "user") {
+                        HttpContext.Response.Cookies.Append("username", Username);
+                        ViewBag.username = Username;
                         return RedirectToAction ("DataUser", "Admin");
                     }
                 }
-                return RedirectToAction ("DataAdmin", "Admin");
             }
-            return View ();
+            return View ("Index");
         }
 
         private string GenerateJwtToken (AccountModel user) {
@@ -87,7 +91,7 @@ namespace MVC.Controllers {
         }
 
         [Authorize]
-        public IActionResult DataAdmin (string role) {
+        public IActionResult DataAdmin () {
             var token = HttpContext.Session.GetString ("JWTToken");
             var jwtSec = new JwtSecurityTokenHandler ();
             var securityToken = jwtSec.ReadToken (token) as JwtSecurityToken;
@@ -98,7 +102,7 @@ namespace MVC.Controllers {
         }
 
         [Authorize]
-        public IActionResult DataUser (string role) {
+        public IActionResult DataUser () {
             var token = HttpContext.Session.GetString ("JWTToken");
             var jwtSec = new JwtSecurityTokenHandler ();
             var securityToken = jwtSec.ReadToken (token) as JwtSecurityToken;
@@ -107,11 +111,11 @@ namespace MVC.Controllers {
             ViewBag.items = items;
             return RedirectToAction ("Welcomepage", "Home");
         }
-        
+
         [Authorize]
         public IActionResult Logout () {
             HttpContext.Session.Remove ("JWTToken");
-            return RedirectToAction ("Index","Home");
+            return RedirectToAction ("Index", "Home");
         }
 
         [ResponseCache (Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

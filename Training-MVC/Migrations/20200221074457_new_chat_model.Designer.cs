@@ -10,8 +10,8 @@ using Task_Web_Product.Models;
 namespace Task_Web_Product.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200213071325_newmodel_migrate")]
-    partial class newmodel_migrate
+    [Migration("20200221074457_new_chat_model")]
+    partial class new_chat_model
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,6 +57,24 @@ namespace Task_Web_Product.Migrations
                     b.ToTable("carts");
                 });
 
+            modelBuilder.Entity("Task_Web_Product.Models.Chat", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("chats");
+                });
+
             modelBuilder.Entity("Task_Web_Product.Models.Items", b =>
                 {
                     b.Property<int>("id")
@@ -90,6 +108,57 @@ namespace Task_Web_Product.Migrations
                     b.HasIndex("CartsID");
 
                     b.ToTable("items");
+                });
+
+            modelBuilder.Entity("Task_Web_Product.Models.Paging", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("curent_page")
+                        .HasColumnType("int");
+
+                    b.Property<int>("showitem")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.ToTable("paging");
+                });
+
+            modelBuilder.Entity("Task_Web_Product.Models.Purchase", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Zipcode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nama")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("payment_method")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("phone_number")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("totalPurchase")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.ToTable("purchases");
                 });
 
             modelBuilder.Entity("Task_Web_Product.Models.Items", b =>

@@ -1,5 +1,5 @@
 @{
-    Layout = "_Layout";
+    Layout = "_LayoutAdmin";
 }
       @{
         var get = ViewBag.username;
@@ -22,21 +22,20 @@
     <div class="panel-body" id="chat">
         <input type="hidden" id="displayname"/>
         @{
-            var x = ViewBag.items;
+            var x = ViewBag.history;
             foreach (var i in x)
-            {
-                
-                if (i.nama == "Admin")
+            {       
+                if (i.username != "admin" && i.message != null)
                 {
         <p style="color:red; text-align:left;">Admin</p>
         <p style="color:red; text-align:left;">
-        <strong><img = src="https://www.phplivesupport.com/pics/icons/avatars/public/avatar_7.png" title="Admin"></strong>@i.pesan</p>
+        <strong><img src="https://cdn.esquimaltmfrc.com/wp-content/uploads/2015/09/flat-faces-icons-circle-man-6.png" title="Admin" style="width:40px"></strong>@i.message</p>
                 }
-                else if (i.nama != "Admin")
+                else if(i.username == "admin" && i.message != null)
                 {
         <p style="color:black; text-align:right;">User</p>
         <p style="color:black; text-align:right;">
-        <strong><img = src="https://www.phplivesupport.com/pics/icons/avatars/public/avatar_71.png" title="User"></strong>@i.pesan</p>
+        <strong><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLMXEtafCkq2nYjPZIUEslsXoVXNBzURoDLeblurcyeQWK0_ly8g&s" title="User" style="width:40px"></strong>@i.message</p>
                 }
             }
         }
@@ -49,16 +48,13 @@
             <input id="user" type="hidden" name="user" class="form-control input-sm" placeholder="Name" value="User"/>
             <input id="message" type="text" name="message" class="form-control input-sm" placeholder="Message"/>
             <span class="input-group-btn">
-                <input type="button" class="btn btn-warning btn-sm" id="sendmessage" value="Send" style="width: 300px; height: 38px;">
+                <input type="button" class="btn btn-success" id="sendmessage" value="Send" style="width: 300px; height: 28px;">
             </span>
             </div>
         <br>
         </div>
         <br>
     </div>
-</div>
-<div class="text-center">
-    <button class="btn btn-block btn-danger" onclick="location.href='/Home/Endchat'">Resolve</button>
 </div>
     @section Scripts
     {
@@ -79,17 +75,17 @@
                         return console.error(err.toString());
                     })
                 });
-                connection.on("GotAMessage", function (user, message) {
-                   if (user == "Admin") 
+                connection.on("GotAMessage", function (get_username, message) {
+                   if (get_username != "admin") 
                     {
                     // Add the message to the page.
-                    $('#discussion').append('<p style="color:;text-align:left;">'+'User'+'</p>' +'<p style="color:red; text-align:left;"><strong><img = src="https://www.phplivesupport.com/pics/icons/avatars/public/avatar_7.png" title="Admin">'
+                    $('#discussion').append('<p style="color:;text-align:left;">'+'Customer'+'</p>' +'<p style="color:red; text-align:left;"><strong><img = src="https://cdn.esquimaltmfrc.com/wp-content/uploads/2015/09/flat-faces-icons-circle-man-6.png" title="Admin" style="width:40px">'
                         + ' </strong> ' + message + '</p>');
                     }
-                    else if (user != "Admin") 
+                    else
                     {
                     // Add the message to the page.
-                    $('#discussion').append('<p style="color:black;text-align:right;">'+'User'+'</p>' +'<p style="color:black; text-align:right;"><strong><img = src="https://www.phplivesupport.com/pics/icons/avatars/public/avatar_71.png" title="User">'
+                    $('#discussion').append('<p style="color:black;text-align:right;">'+'Admin'+'</p>' +'<p style="color:black; text-align:right;"><strong><img = src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLMXEtafCkq2nYjPZIUEslsXoVXNBzURoDLeblurcyeQWK0_ly8g&s" title="User" style="width:40px">'
                         + ' </strong> ' + message + '</p>');
                     }
                 });

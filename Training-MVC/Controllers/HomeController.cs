@@ -34,14 +34,39 @@ namespace Task_Web_Product.Controllers {
         }
 
         public IActionResult CustomerChat () {
+            var user_name = HttpContext.Request.Cookies["username"];
+            var get = from a in _AppDbContext.chats where a.username==user_name select a;
+            var history = from a in _AppDbContext.chats select a;
+            if(!get.Any()){
+            Chat chat = new Chat (){
+                username = user_name
+            };
+                _AppDbContext.chats.Add (chat);
+                _AppDbContext.SaveChanges ();
+            }
+            ViewBag.username = user_name;
+            ViewBag.chat = get;
+            ViewBag.history = history;
             return View ();
         }
+        public IActionResult ClearChat (string user) {
+            var get = from a in _AppDbContext.chats where a.username == user select a;
+            foreach (var a in get)
+            {      
+            _AppDbContext.chats.Remove (a);
+            _AppDbContext.SaveChanges ();
+            }
+            var items = from item in _AppDbContext.items where item.rate > 6 select item;
+            ViewBag.items = items;
+            return View ("WelcomePage");
+        }
+
         public IActionResult Index () {
             return View ();
         }
 
         [Authorize]
-        public IActionResult Welcomepage () {
+        public IActionResult Welcomepage (string Username) {
             var items = from item in _AppDbContext.items where item.rate > 6 select item;
             ViewBag.items = items;
             return View ();
@@ -113,6 +138,25 @@ namespace Task_Web_Product.Controllers {
             var get = from a in _AppDbContext.purchases select a;
             ViewBag.items = get;
             return View ("Transaction");
+        }
+
+        [Authorize]
+        public IActionResult AdminChat () {
+            var user_name = HttpContext.Request.Cookies["username"];
+            var get = from a in _AppDbContext.chats where a.username==user_name select a;
+            var history = from a in _AppDbContext.chats select a;
+
+            if(!get.Any()){
+            Chat chat = new Chat (){
+                username = user_name
+            };
+                _AppDbContext.chats.Add (chat);
+                _AppDbContext.SaveChanges ();
+            }
+            ViewBag.chat = get;
+            ViewBag.history = history;
+            ViewBag.username = user_name;
+            return View ();
         }
 
         [Authorize]
@@ -299,8 +343,10 @@ namespace Task_Web_Product.Controllers {
         }
 
         [Authorize]
-        public IActionResult AdminPage () {
+        public IActionResult AdminPage (string Username) {
             var get = from a in _AppDbContext.items select a;
+            // var getAccount = from a in _AppDbContext.account where a.role == "admin" select a;
+            ViewBag.account = Username;
             ViewBag.items = get;
             return View ();
         }
@@ -426,17 +472,17 @@ namespace Task_Web_Product.Controllers {
                 Email = stripeEmail,
                     Source = stripeToken
             });
-            var get = from i in _AppDbContext.purchases.OrderBy(i => i.id) select i;
-            var last = get.LastOrDefault();
-                var charge = charges.Create (new ChargeCreateOptions {
-                    Amount = last.totalPurchase,
-                        Description = "Test Payment",
-                        Currency = "idr",
-                        Customer = customers.Id
-                });
-                if (charge.Status == "succeeded") {
-                    string BalanceTransactionId = charge.BalanceTransactionId;
-                    return RedirectToAction ("Mail","Home");
+            var get = from i in _AppDbContext.purchases.OrderBy (i => i.id) select i;
+            var last = get.LastOrDefault ();
+            var charge = charges.Create (new ChargeCreateOptions {
+                Amount = last.totalPurchase,
+                    Description = "Test Payment",
+                    Currency = "idr",
+                    Customer = customers.Id
+            });
+            if (charge.Status == "succeeded") {
+                string BalanceTransactionId = charge.BalanceTransactionId;
+                return RedirectToAction ("Mail", "Home");
             }
             return View ("Pay");
         }
@@ -447,13 +493,13 @@ namespace Task_Web_Product.Controllers {
             message.From.Add (new MailboxAddress ("bellroy", "bellroy@bellroy.com"));
             message.To.Add (new MailboxAddress ("igna", "ignadwiutami@gmail.com"));
             message.Subject = "Invoice From Bellroy";
-            var get = from i in _AppDbContext.purchases.OrderBy(i => i.id) select i;
-            var last = get.LastOrDefault();
+            var get = from i in _AppDbContext.purchases.OrderBy (i => i.id) select i;
+            var last = get.LastOrDefault ();
             message.Body = new TextPart ("plain") {
-                Text = @"Hello "+last.nama+
+                Text = @"Hello " + last.nama +
                 "\nThanks for purchasing our best collection \n" +
                 "Here is your purchase details :\n" +
-                "Amount : Rp. "+last.totalPurchase
+                "Amount : Rp. " + last.totalPurchase
             };
             using (var emailClient = new MailKit.Net.Smtp.SmtpClient ()) {
                 emailClient.ServerCertificateValidationCallback = (s, c, h, e) => true;

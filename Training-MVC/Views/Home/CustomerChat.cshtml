@@ -1,45 +1,64 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-.myclass {
-    height: 20px;
-    position: relative;
-    border: 2px solid #cdcdcd;
-    border-color: rgba(0, 0, 0, .14);
-    background-color: AliceBlue;
-    font-size: 20px;
-    
-    width: 1100px;
-    height: 500px;
-    overflow: hidden;
+@{
+    Layout = "_Layout";
 }
+      @{
+        var get = ViewBag.username;
+        <h2>Hello</h2>
+        <h2 id="username">@get</h2>
+       }
+
+<style>
+    div.panel-body {
+        overflow: scroll;
+        width: 1100px;
+        height: 300px;
+    }
 </style>
-</head>   
-<body>
-<form asp-action="" id="editform" name="edit" role="form">
-    <div class="modal-body">
-        <input type="text" name="id" class="form-control" value="" hidden>
-        <div class="form-group">
-            <label for="name">Full Name</label>
-            <input type="text" name="nama" class="form-control" value="" id="a">
-        </div>
-        <div class="form-group">
-            <label for="name">Message</label>
-            <input type="text" name="harga" class="form-control" value="" id="b">
-        </div>
-    </div>
-    <div class="modal-footer">
-        <input type="submit" class="btn btn-success" id="submit">
-    </div>
-</form>
-<div class="myclass">
-    <ul id="chat">
-    </ul>
+<br>
+<div class="text-center">
+<h1>Customer Services</h1>
 </div>
-</body>
-</html>
+<div class="chat-panel panel panel-default">
+    <div class="panel-body" id="chat">
+        <input type="hidden" id="displayname"/>
+        @{
+            var x = ViewBag.history;
+            foreach (var i in x)
+            {
+                if (i.username == "admin" && i.message != null)
+                {
+        <p style="color:red; text-align:left;">Admin</p>
+        <p style="color:red; text-align:left;">
+        <strong><img src="https://cdn.esquimaltmfrc.com/wp-content/uploads/2015/09/flat-faces-icons-circle-man-6.png" title="Admin" style="width:40px"></strong>@i.message</p>
+                }
+                else if(i.username != "admin" && i.message != null)
+                {
+        <p style="color:black; text-align:right;">User</p>
+        <p style="color:black; text-align:right;">
+        <strong><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLMXEtafCkq2nYjPZIUEslsXoVXNBzURoDLeblurcyeQWK0_ly8g&s" title="User" style="width:40px"></strong>@i.message</p>
+                }
+            }
+        }
+        <p id="discussion"></p>
+    </div>
+    <div class="text-center">
+    <div class="panel-footer">
+        <br>
+        <div class="input-group">
+            <input id="user" type="hidden" name="user" class="form-control input-sm" placeholder="Name" value="User"/>
+            <input id="message" type="text" name="message" class="form-control input-sm" placeholder="Message"/>
+            <span class="input-group-btn">
+                <input type="button" class="btn btn-success btn-sm" id="sendmessage" value="Send" style="width: 300px; height: 28px;">
+            </span>
+            </div>
+        <br>
+        </div>
+        <br>
+    </div>
+</div>
+<div class="text-center">
+    <button class="btn btn-block btn-danger" onclick="location.href='/Home/Clearchat'">Problem Solved</button>
+</div>
     @section Scripts
     {
         <script>
@@ -48,19 +67,30 @@
             let connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
             connection.start().then(function() {
                 console.log("Berhasil");
-                $('#submit').on('click', function (event) {
+                $('#sendmessage').on('click', function (event) {
                     event.preventDefault();
-                    let user = $('#a').val();
-                    let message = $('#b').val();
-                    connection.invoke("SendMessage", user, message)
+                    var get_username = document.getElementById("username").innerHTML;
+                    let message = $('#message').val();
+                    connection.invoke("SendMessage", get_username, message)
                         .then(data => {
                             console.log('Berhasil kirim data')
                         }).catch(err => {
                         return console.error(err.toString());
                     })
                 });
-                connection.on("GotAMessage", function (user, message) {
-                    $('#chat').append('<li>'+user+": "+message+'</li>')
+                connection.on("GotAMessage", function (get_username, message) {
+                   if (get_username == "admin") 
+                    {
+                    // Add the message to the page.
+                    $('#discussion').append('<p style="color:;text-align:left;">'+'Admin'+'</p>' +'<p style="color:red; text-align:left;"><strong><img = src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLMXEtafCkq2nYjPZIUEslsXoVXNBzURoDLeblurcyeQWK0_ly8g&s" style="width:40px" title="Admin">'
+                        + ' </strong> ' + message + '</p>');
+                    }
+                    else if (get_username != "admin") 
+                    {
+                    // Add the message to the page.
+                    $('#discussion').append('<p style="color:black;text-align:right;">'+get_username+'</p>' +'<p style="color:black; text-align:right;"><strong><img = src="https://cdn.esquimaltmfrc.com/wp-content/uploads/2015/09/flat-faces-icons-circle-man-6.png" style="width:40px" title="User">'
+                        + ' </strong> ' + message + '</p>');
+                    }
                 });
             }).catch(function (err) {
                 return console.error(err.toString());

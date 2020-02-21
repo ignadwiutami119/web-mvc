@@ -55,6 +55,24 @@ namespace Task_Web_Product.Migrations
                     b.ToTable("carts");
                 });
 
+            modelBuilder.Entity("Task_Web_Product.Models.Chat", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("chats");
+                });
+
             modelBuilder.Entity("Task_Web_Product.Models.Items", b =>
                 {
                     b.Property<int>("id")

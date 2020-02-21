@@ -9,6 +9,7 @@ namespace Task_Web_Product.Models
         public DbSet<Paging> paging {get;set;}
         public DbSet<Carts> carts {get;set;}
         public DbSet<AccountModel> account {get;set;}
+        public DbSet<Chat> chats {get;set;}
         public AppDbContext (DbContextOptions options):base(options)
         {
             
